@@ -1,0 +1,4 @@
+require('./bootstrap');
+$('.carousel').carousel()
+
+
