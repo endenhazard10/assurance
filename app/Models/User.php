@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'prenom',
+        'telephone',
+        'contrat_automobile_vendus',
+        'commissions_dues_automobile',
+        'commissions_soldees_automobile',
+        'contrat_voyage_vendus',
+        'commissions_dues_voyage',
+        'commissions_soldees_voyage',
+        'contrat_habitation_vendus',
+        'commissions_dues_habitation',
+        'commissions_soldees_habitation'
     ];
 
     /**

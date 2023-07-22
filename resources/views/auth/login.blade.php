@@ -1,44 +1,67 @@
 @extends('layouts.default',['title'=>'Connexion apporter'])
 @section('content')
 @include('layouts.partials.carou')
-<div class="wrapper" style="">
-    <div class="text-center"><p class="font-weight-bold">Formulaire de connexion pour l'apporter</p></div>
-        <form class="pt-3" method="POST" action="{{ route('login') }}">
-        @csrf    
-        <div class="form-group py-2">
-                <div class="input-field">
-                    <span class="far fa-user p-2"></span>
-                    <input type="text" name="email" value="{{ old('email') }}" placeholder="Username or Email Address" required class="">
+
+
+    <br>
+    <section class="text-center">
+        <!-- Background image -->
+        <div class="p-5 bg-image" style="
+              height: 100px;
+              "></div>
+        <!-- Background image -->
+      
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+              margin-top: -100px;
+              background: #E8EAF3;
+              backdrop-filter: blur(30px);
+              ">
+          <div class="card-body py-5 px-md-5">
+      
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-8">
+                <h2 class="fw-bold mb-5">Connexion Apporter</h2>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf 
+                  <div class="form-outline mb-4">
+                    <input type="text" name="email" value="{{ old('email') }}" placeholder="Username or Email Address" class="form-control">
                     @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                      @enderror
-                </div>
-            </div>
-            <div class="form-group py-1 pb-2">
-                <div class="input-field">
-                    <span class="fas fa-lock p-2"></span>
-                    <input type="password" name="password" required  placeholder="Enter your Password" required class="">
+                  </div>
+      
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <input type="password" name="password" required  placeholder="Enter your Password" required class="form-control">
                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                     @enderror
-                </div>
+                  </div>
+
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">
+                    Connexion
+                  </button>
+      
+                  <!-- Register buttons -->
+                  
+                </form>
+                @if(Session::get('error'))
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">{{Session::get('error')}}</div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">Adresse Mail ou mot de passe incorrect</div>
+                    </div>
+                @endif
+              </div>
             </div>
-            <div class="d-flex align-items-start">
-                <div class="remember">
-                    <label class="option text-muted"> Remember me
-                        <input type="radio" name="radio">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="ml-auto">
-                    <a href="#" id="forgot">Forgot Password?</a>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-block text-center my-3">Log in</button>
-        </form>
-    </div>
+          </div>
+        </div>
+</section>
+<br>
 @endsection

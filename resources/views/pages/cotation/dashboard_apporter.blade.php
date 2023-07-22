@@ -33,7 +33,7 @@
   <td>--</td>
   <td><button class="btn btn-primary">imprimer</button></td>
   </tr>
-  </tbody>
+  </tbody> 
   @endforeach
   </table>
 
