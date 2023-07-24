@@ -24,7 +24,8 @@ class FormulaireVoyage extends Component
     public $date_validite;
     public $age;
     public $date_de_naissance;
-    
+    public $numero_police;
+
     public $formule;
     public $destination;
     public $date_depart;
@@ -82,6 +83,7 @@ class FormulaireVoyage extends Component
             'date_depart'=>'required',
             'date_retour'=>'required',
             'duree'=>'required',
+            'numero_police'=>'required'
           ]);
         }
         if ($this->age>=0 and $this->age<=18 ) { $this->age_requete="a1"; }
@@ -102,7 +104,7 @@ class FormulaireVoyage extends Component
         //dd($requete_axa[0]->prime_ttc);
 
         $article = AssuranceVoyage::create(['prenom' => $this->prenom
-            ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
+            ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse,'numero_police' => $this->numero_police
             ,'numero_passport' => $this->numero_passeport,'date_validite_passeport' => $this->date_validite,'motif_voyage' => $this->motif
             ,'pays' => $this->destination,'formule' => $this->formule,'date_depart' => $this->date_depart,'age' => $this->age
             ,'date_retour' => $this->date_retour,'duree' => $this->duree,'date_de_naissance' => $this->date_de_naissance

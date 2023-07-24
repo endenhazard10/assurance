@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css?v=3.2.0') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <style>
+        .table-container {
+    max-height: 400px; /* Hauteur fixe de la div, ajustez cette valeur selon vos besoins */
+    overflow: auto; /* Afficher la barre de défilement si nécessaire */
+}
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -70,30 +76,6 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                     Dashbord Automobiles
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Dashbord Voyage
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Dashbord Habitation
-                                </p>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
 
@@ -117,32 +99,55 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body table-container">
                                     <h5 class="card-title"></h5>
                                     <table class="table table-bordered">
                                         <thead>
                                         <tr>
-                                        <th>#</th>
-                                        <th>Nom</th> 
-                                        <th>Email</th> 
+                                        <th style="font-size: 12px;min-width:80px;">#</th>
+                                        <th style="font-size: 12px;min-width:250px;">Code Apporter</th>
+                                        <th style="font-size: 12px;min-width:250px;">Branche</th>
+                                        <th style="font-size: 12px;min-width:250px;">Compagnie</th>
+                                        <th style="font-size: 12px;min-width:250px;">Prénom</th>
+                                        <th style="font-size: 12px;min-width:250px;">Nom</th>
+                                        <th style="font-size: 12px;min-width:250px;">Numéro police</th>
+                                        <th style="font-size: 12px;min-width:250px;">Date d'effet</th>
+                                        <th style="font-size: 12px;min-width:250px;">Date échéance</th>
+                                        <th style="font-size: 12px;min-width:250px;">Prime NETTE</th>
+                                        <th style="font-size: 12px;min-width:250px;">Date Accessoire</th>
+                                        <th style="font-size: 12px;min-width:250px;">Prime TTC</th>
+                                        <th style="font-size: 12px;min-width:250px;">Commission Apporter</th>
+                                        <th style="font-size: 12px;min-width:250px;">Commission Accessoire</th>
+                                        <th style="font-size: 12px;min-width:250px;">Commission Totale</th>
                                         </tr>
                                         </thead>
                                         @foreach($requete as $event)
                                         <tbody>
                                         <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{$event->name}}</td>
-                                        <td>{{$event->email}}</td>
+                                        <td style="font-size: 12px;">{{$loop->index+1}}</td>
+                                        <td style="font-size: 12px;">--</td>
+                                        <td style="font-size: 12px;">{{ucfirst($event->niveau)}}</td>
+                                        <td style="font-size: 12px;">{{ucfirst($event->assurance_choisit)}}</td>
+                                        <td style="font-size: 12px;">{{ucfirst($event->prenom)}}</td>
+                                        <td style="font-size: 12px;">{{ucfirst($event->nom)}}</td>
+                                        <td style="font-size: 12px;">{{$event->numero_police}}</td>
+                                        <td style="font-size: 12px;">{{$event->date_effet}}</td>
+                                        <td style="font-size: 12px;">{{$event->date_echeance}}</td>
+                                        <td style="font-size: 12px;">{{$event->prime_nette}}</td>
+                                        <td style="font-size: 12px;">{{$event->accessoires}}</td>
+                                        <td style="font-size: 12px;">{{$event->prime_ttc}}</td>
+                                        <td style="font-size: 12px;">{{$event->commissions_apporteur}}</td>
+                                        <td style="font-size: 12px;">{{$event->commissions_accessoires}}</td>
+                                        <td style="font-size: 12px;">{{$event->commissions_apporteur+$event->commissions_accessoires}}</td>
                                         </tr>
                                         </tbody> 
                                         @endforeach
                                         </table>
-                                    <p class="card-text">
-                                        
-                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-center mt-4">
+                                    {{ $requete->links() }}
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
 

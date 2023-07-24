@@ -42,6 +42,9 @@ Route::get('/calcule_assurance_deux_roues',[CotationController::class,'calcule_a
 //Route::get('/pdf_pres_contrat',[CotationController::class,'pdf_pres_contrat'])->name('pdf_pres_contrat');
 
 Route::get('/home_apporter', [App\Http\Controllers\HomeController::class, 'index'])->name('home_apporter')->middleware('auth');
+Route::get('/dashboard_apporter_voyage', [App\Http\Controllers\CotationController::class, 'dashboard_apporter_voyage'])->name('dashboard_apporter_voyage')->middleware('auth');
+Route::get('/dashboard_apporter_deux_roues', [App\Http\Controllers\CotationController::class, 'dashboard_apporter_deux_roues'])->name('dashboard_apporter_deux_roues')->middleware('auth');
+Route::get('/dashboard_apporter_tpv', [App\Http\Controllers\CotationController::class, 'dashboard_apporter_tpv'])->name('dashboard_apporter_tpv')->middleware('auth');
 Route::get('/cotation_apporter', [App\Http\Controllers\CotationController::class, 'cotation_apporter'])->name('cotation_apporter')->middleware('auth');
 Route::get('/cotation_apporter_document_axa_voyage', [App\Http\Controllers\CotationController::class, 'cotation_apporter_document_axa_voyage'])->name('cotation_apporter_document_axa_voyage')->middleware('auth');
 Route::get('/cotation_apporter_document_axa', [App\Http\Controllers\CotationController::class, 'cotation_apporter_document_axa'])->name('cotation_apporter_document_axa')->middleware('auth');

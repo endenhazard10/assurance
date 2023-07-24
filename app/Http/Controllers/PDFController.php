@@ -19,6 +19,13 @@ class PDFController extends Controller
     public function contrat_assurance_vehicule()
     {
         $assurance = DB::table('assurances')->where('id','=',session()->get('id_vehicule'))->get();
+        $commissions_accessoires=($assurance[0]->accessoires/100)*100;
+        $commissions_apporteur=($assurance[0]->prime_ttc/100)*20;
+        DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('commissions_apporteur' => $commissions_apporteur,'commissions_accessoires' => $commissions_accessoires));
+        $assurance = DB::table('assurances')->where('id','=',session()->get('id_vehicule'))->get();
+        $calcule = DB::table('assurances')->where('niveau','=','vehicule')->where('valider','=','1')->get();
+        $sumOfCommissions = $calcule->sum('commissions_apporteur');
+        //dd($sumOfCommissions);
         $data = [
             'title' => 'Welcome to LaravelTuts.com',
             'date' => date('m/d/Y'),
@@ -44,6 +51,10 @@ class PDFController extends Controller
     public function contrat_assurance_tpv()
     {
         $assurance = DB::table('assurances')->where('id','=',session()->get('id_tpv'))->get();
+        $commissions_accessoires=($assurance[0]->accessoires/100)*100;
+        $commissions_apporteur=($assurance[0]->prime_ttc/100)*20;
+        DB::table('assurances')->where('id', session()->get('id_tpv'))->update(array('commissions_apporteur' => $commissions_apporteur,'commissions_accessoires' => $commissions_accessoires));
+        $assurance = DB::table('assurances')->where('id','=',session()->get('id_tpv'))->get();
         $data = [
             'title' => 'Welcome to LaravelTuts.com',
             'date' => date('m/d/Y'),
@@ -67,6 +78,10 @@ class PDFController extends Controller
     }
     public function contrat_assurance_deux_roues()
     {
+        $assurance = DB::table('assurances')->where('id','=',session()->get('id_deux_roues'))->get();
+        $commissions_accessoires=($assurance[0]->accessoires/100)*100;
+        $commissions_apporteur=($assurance[0]->prime_ttc/100)*20;
+        DB::table('assurances')->where('id', session()->get('id_deux_roues'))->update(array('commissions_apporteur' => $commissions_apporteur,'commissions_accessoires' => $commissions_accessoires));
         $assurance = DB::table('assurances')->where('id','=',session()->get('id_deux_roues'))->get();
         $data = [
             'title' => 'Welcome to LaravelTuts.com',

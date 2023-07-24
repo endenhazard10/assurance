@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AjouterPrenomUsers extends Migration
+class AddCodeApporterUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,7 @@ class AjouterPrenomUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('prenom')->nullable();
-            $table->string('telephone')->nullable();
-            $table->bigInteger('contrat_automobile_vendus')->nullable();
-            $table->bigInteger('contrat_voyage_vendus')->nullable();
-            $table->bigInteger('contrat_habitation_vendus')->nullable();
+            $table->string('code_apporter')->unique()->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class AjouterPrenomUsers extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

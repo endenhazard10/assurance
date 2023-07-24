@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PDF;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class CotationController extends Controller
 {
@@ -50,11 +53,41 @@ class CotationController extends Controller
     }
     public function dashboard_apporter()
     {   
-      $requete=DB::table('assurances')->orderBy('id','desc')->paginate(10);
-      $voyages=DB::table('assurance_voyages')->orderBy('id','desc')->paginate(10);
-      
-      return view('pages.cotation.dashboard_apporter',compact('requete','voyages'));
+      $apporter=DB::table('users')->where('id',Auth::user()->id )->get(); 
+      $requete=DB::table('assurances')->where('niveau','vehicule')->where('valider','1')->orderBy('id','desc')->paginate(10); 
+      $moisActuel = now()->format('F');   
+      $premierJour = Carbon::now()->firstOfMonth();
+      $dernierJour = Carbon::now()->lastOfMonth();  
+      return view('pages.cotation.dashboard_apporter',compact('requete','apporter','moisActuel','premierJour','dernierJour'));
      
+    }
+    public function dashboard_apporter_voyage()
+    {   
+      $apporter=DB::table('users')->where('id',Auth::user()->id )->get();
+      $moisActuel = now()->format('F');   
+      $premierJour = Carbon::now()->firstOfMonth();
+      $dernierJour = Carbon::now()->lastOfMonth(); 
+      $voyages=DB::table('assurance_voyages')->orderBy('id','desc')->where('valider','1')->paginate(10);
+      return view('pages.cotation.dashboard_apporter_voyage',compact('voyages','moisActuel','apporter','premierJour','dernierJour'));
+     
+    }
+    public function dashboard_apporter_deux_roues()
+    {   
+      $apporter=DB::table('users')->where('id',Auth::user()->id )->get();
+      $moisActuel = now()->format('F');   
+      $premierJour = Carbon::now()->firstOfMonth();
+      $dernierJour = Carbon::now()->lastOfMonth(); 
+      $requete=DB::table('assurances')->orderBy('id','desc')->where('niveau','deux roues')->where('valider','1')->paginate(10); 
+      return view('pages.cotation.dashboard_apporter_deux_roues',compact('requete','apporter','moisActuel','premierJour','dernierJour'));
+    }
+    public function dashboard_apporter_tpv()
+    {   
+      $apporter=DB::table('users')->where('id',Auth::user()->id )->get();
+      $moisActuel = now()->format('F');   
+      $premierJour = Carbon::now()->firstOfMonth();
+      $dernierJour = Carbon::now()->lastOfMonth(); 
+      $requete=DB::table('assurances')->orderBy('id','desc')->where('niveau','tpv')->where('valider','1')->paginate(10); 
+      return view('pages.cotation.dashboard_apporter_tpv',compact('requete','apporter','moisActuel','premierJour','dernierJour'));
     }
     public function cotation_apporter_document_axa()
     {   

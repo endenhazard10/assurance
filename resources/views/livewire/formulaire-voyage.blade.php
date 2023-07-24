@@ -387,11 +387,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Durée en jours</label>
                             <input type="number" class="form-control" placeholder="Enter la durée" wire:model="duree">
-                            <span class="text-danger">@error('$duree'){{ $message }}@enderror</span>
+                            <span class="text-danger">@error('duree'){{ $message }}@enderror</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Enter le numéro de la police</label>
+                            <input type="number" class="form-control" placeholder="Enter le numéro de la police" wire:model="numero_police">
+                            <span class="text-danger">@error('$numero_police'){{ $message }}@enderror</span>
                         </div>
                     </div>
                 </div>
