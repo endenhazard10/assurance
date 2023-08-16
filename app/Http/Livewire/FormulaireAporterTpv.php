@@ -108,9 +108,60 @@ class FormulaireAporterTpv extends Component
     public $reduction_personne_transportees;
 
 
+    public function __construct()
+    {
+        $latestAssurance = DB::table('assurances')
+                    ->latest('id')
+                    ->first();
+            if ($latestAssurance) {
+                $newId = $latestAssurance->id + 1;
+                while (true) {
+                    $exists = DB::table('assurances')
+                        ->where('numero_client', $newId)
+                        ->exists();
+                    if ($exists) {
+                        $newId++;
+                    } else {
+                        break; // Sortir de la boucle si le numéro n'existe pas
+                    }
+                }
+                $lastInsertedId = $newId;
+            } else {
+                $lastInsertedId=1;
+            }
+            
+            session(['numero_client_tpv' => $lastInsertedId]);
+        if (session()->has('numero_client_tpv')) { $this->numero_client = session('numero_client_tpv');}
+        if (session()->has('prenom_tpv')) {$this->prenom = session('prenom_tpv');}
+        if (session()->has('nom_tpv')) { $this->nom = session('nom_tpv');}
+        if (session()->has('adresse_tpv')) {$this->adresse = session('adresse_tpv');}
+        if (session()->has('profession_client_tpv')) { $this->profession = session('profession_client_tpv');}
+        if (session()->has('telephone_tpv')) {$this->telephone = session('telephone_tpv');}
+        if (session()->has('date_de_naissance_tpv')) { $this->date_de_naissance = session('date_de_naissance_tpv');}
+        if (session()->has('marque_tpv')) {$this->marque = session('marque_tpv');}
+        if (session()->has('modele_tpv')) { $this->modele = session('modele_tpv');}
+        if (session()->has('puissance_tpv')) {$this->puissance = session('puissance_tpv');}
+        if (session()->has('energie_tpv')) { $this->energie = session('energie_tpv');}
+        if (session()->has('categorie_tpv')) {$this->categorie = session('categorie_tpv');}
+        if (session()->has('nombre_de_places_tpv')) { $this->nombre_de_places = session('nombre_de_places_tpv');}
+        if (session()->has('immatriculation_tpv')) {$this->immatriculation = session('immatriculation_tpv');}
+        if (session()->has('mise_en_circulation_tpv')) { $this->mise_en_circulation = session('mise_en_circulation_tpv');}
+        if (session()->has('valeur_neuve_tpv')) {$this->valeur_neuve = session('valeur_neuve_tpv');}
+        if (session()->has('valeur_venale_tpv')) { $this->valeur_venale = session('valeur_venale_tpv');}
+        if (session()->has('nom_carte_grise_tpv')) {$this->nom_sur_la_carte_grise = session('nom_carte_grise_tpv');}
+        if (session()->has('numero_police_tpv')) {$this->numero_police = session('numero_police_tpv');}
+        if (session()->has('date_effet_tpv')) { $this->date_effet = session('date_effet_tpv');}
+        if (session()->has('date_echeance_tpv')) {$this->date_echeance = session('date_echeance_tpv');}
+        if (session()->has('duree_tpv')) {$this->duree = session('duree_tpv');}
+        if (session()->has('numero_avenant_tpv')) { $this->numero_avenant = session('numero_avenant_tpv');}
+    }
+
     public $totalSteps = 4;
     public $currentStep = 1;
-
+    public function goToStep($newStep)
+    {
+        $this->currentStep = $newStep;
+    }
     public function mount(){
         $this->currentStep = 1;
     }
@@ -551,24 +602,65 @@ class FormulaireAporterTpv extends Component
         $this->taxe_askia=($prime_net_total_askia+$this->accessoir_askia)*0.1;
         $this->rga_askia=$this->prime_net_rc_askia*0.025;
         $this->prime_ttc_askia=$prime_net_total_askia+$this->accessoir_askia+$this->taxe_askia+$this->rga_askia;
-        
-        $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
-            ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
-            ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
-            ,'energie' => $this->energie,'categorie' => $this->categorie,'nombre_de_place' => $this->nombre_de_places
-            ,'valeur_neuve' => $this->valeur_neuve,'valeur_venale' => $this->valeur_venale
-            ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
-            ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance
-            ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'tpv','bonus_rc' => $this->bonus_rc
-            ,'thierce_complete' => $thierce_complete_total,'thierce_collision' => $thierce_collision_total
-            ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
-            ,'mise_en_circulation' => $this->mise_en_circulation,'vol' => $vol,'incendie' => $incendie,'bris_de_glace' => $prime_bris_de_glace,
-            'defence_et_recours' => $this->defence_et_recours,'avance_sur_recours' => $this->avance_sur_recours,
-            'personnes_transportees' => $this->personne_transportees,'thierce_complete_franchise' => $this->thierce_complete,'thierce_collision_franchise' => $this->thierce_collision,
-            'vol_franchise' => "30000",'defence_et_recours_capital_garanti' => $defence_et_recours_capital_garanti,'avance_sur_recours_capital_garanti' => $avance_sur_recours_capital_garanti
+
+        session(['prenom_tpv' => $this->prenom]);
+        session(['nom_tpv' => $this->nom]);
+        session(['adresse_tpv' => $this->adresse]);
+        session(['profession_tpv' => $this->profession]);
+        session(['telephone_tpv' => $this->telephone]);
+        session(['date_de_naissance_tpv' => $this->date_de_naissance ]);
+        session(['marque_tpv' => $this->marque]);
+        session(['modele_tpv' => $this->modele]);
+        session(['puissance_tpv' => $this->puissance]);
+        session(['energie_tpv' => $this->energie]);
+        session(['categorie_tpv' => $this->categorie]);
+        session(['nombre_de_places_tpv' => $this->nombre_de_places]);
+        session(['immatriculation_tpv' => $this->immatriculation]);
+        session(['mise_en_circulation_tpv' => $this->mise_en_circulation]);
+        session(['valeur_neuve_tpv' => $this->valeur_neuve]);
+        session(['valeur_venale_tpv' => $this->valeur_venale]);
+        session(['nom_carte_grise_tpv' => $this->nom_sur_la_carte_grise]);
+        session(['numero_police_tpv' => $this->numero_police]);
+        session(['date_effet_tpv' => $this->date_effet]);
+        session(['date_echeance_tpv' => $this->date_echeance]);
+        session(['duree_tpv' => $this->duree]);
+        session(['numero_avenant_tpv' => $this->numero_avenant]);
+        session(['bonus_rc_tpv' => $this->bonus_rc]);
+        session(['thierce_complete_tpv' => $thierce_complete_total]);
+        session(['thierce_collision_tpv' => $thierce_collision_total]);
+        session(['vol_tpv' => $vol]);
+        session(['incendie_tpv' => $incendie]);
+        session(['bris_de_glace_tpv' => $prime_bris_de_glace]);
+        session(['defence_et_recours_tpv' => $this->defence_et_recours]);
+        session(['avance_sur_recours_tpv' => $this->avance_sur_recours]);
+        session(['personnes_transportees_tpv' => $this->personne_transportees]);
+        session(['thierce_complete_franchise_tpv' => $this->thierce_complete]);
+        session(['thierce_collision_franchise_tpv' => $this->thierce_collision]);
+        session(['vol_franchise_tpv' => "30000"]);
+        session(['defence_et_recours_capital_garanti_tpv' => $defence_et_recours_capital_garanti]);
+        session(['avance_sur_recours_capital_garanti_tpv' => $avance_sur_recours_capital_garanti]);
+        session(['id_apporter_tpv' => Auth::user()->id]);
+
+        dd(session()->get('bonus_rc_tpv'),session()->get('thierce_complete_franchise_tpv'),
+        session()->get('thierce_collision_franchise_tpv'),session()->get('defence_et_recours_capital_garanti_tpv'),
+        session()->get('avance_sur_recours_capital_garanti_tpv'),session()->get('vol_franchise_tpv'));
+        // $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
+        //     ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
+        //     ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
+        //     ,'energie' => $this->energie,'categorie' => $this->categorie,'nombre_de_place' => $this->nombre_de_places
+        //     ,'valeur_neuve' => $this->valeur_neuve,'valeur_venale' => $this->valeur_venale
+        //     ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
+        //     ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance
+        //     ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'tpv','bonus_rc' => $this->bonus_rc
+        //     ,'thierce_complete' => $thierce_complete_total,'thierce_collision' => $thierce_collision_total
+        //     ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
+        //     ,'mise_en_circulation' => $this->mise_en_circulation,'vol' => $vol,'incendie' => $incendie,'bris_de_glace' => $prime_bris_de_glace,
+        //     'defence_et_recours' => $this->defence_et_recours,'avance_sur_recours' => $this->avance_sur_recours,
+        //     'personnes_transportees' => $this->personne_transportees,'thierce_complete_franchise' => $this->thierce_complete,'thierce_collision_franchise' => $this->thierce_collision,
+        //     'vol_franchise' => "30000",'defence_et_recours_capital_garanti' => $defence_et_recours_capital_garanti,'avance_sur_recours_capital_garanti' => $avance_sur_recours_capital_garanti
             
-            ,'id_apporter' => Auth::user()->id]);  
-        session()->put('id_tpv', $article->id);
+        //     ,'id_apporter' => Auth::user()->id]);  
+        // session()->put('id_tpv', $article->id);
         
         session()->put('prime_net_axa_tpv', $prime_net_total_axa);
         session()->put('prime_net_amsa_tpv', $prime_net_total_amsa);

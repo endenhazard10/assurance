@@ -8,6 +8,7 @@ use App\Models\Assurance;
 use App\Models\ThierceCompleteAutomobile;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Auth;
 
 class FormulaireApporter extends Component
@@ -106,9 +107,62 @@ class FormulaireApporter extends Component
     public $reduction_vol;
     public $reduction_personne_transportees;
 
+    public function __construct()
+    {
+        $latestAssurance = DB::table('assurances')
+                    ->latest('id')
+                    ->first();
+            if ($latestAssurance) {
+                $newId = $latestAssurance->id + 1;
+                while (true) {
+                    $exists = DB::table('assurances')
+                        ->where('numero_client', $newId)
+                        ->exists();
+                    if ($exists) {
+                        $newId++;
+                    } else {
+                        break; // Sortir de la boucle si le numéro n'existe pas
+                    }
+                }
+                $lastInsertedId = $newId;
+            } else {
+                $lastInsertedId=1;
+            }
+            
+            session(['numero_client_vehicule' => $lastInsertedId]);
+        if (session()->has('numero_client_vehicule')) { $this->numero_client = session('numero_client_vehicule');}
+        if (session()->has('prenom_vehicule')) {$this->prenom = session('prenom_vehicule');}
+        if (session()->has('nom_vehicule')) { $this->nom = session('nom_vehicule');}
+        if (session()->has('adresse_vehicule')) {$this->adresse = session('adresse_vehicule');}
+        if (session()->has('profession_client_vehicule')) { $this->profession = session('profession_client_vehicule');}
+        if (session()->has('telephone_vehicule')) {$this->telephone = session('telephone_vehicule');}
+        if (session()->has('date_de_naissance_vehicule')) { $this->date_de_naissance = session('date_de_naissance_vehicule');}
+        if (session()->has('marque_vehicule')) {$this->marque = session('marque_vehicule');}
+        if (session()->has('modele_vehicule')) { $this->modele = session('modele_vehicule');}
+        if (session()->has('puissance_vehicule')) {$this->puissance = session('puissance_vehicule');}
+        if (session()->has('energie_vehicule')) { $this->energie = session('energie_vehicule');}
+        if (session()->has('categorie_vehicule')) {$this->categorie = session('categorie_vehicule');}
+        if (session()->has('nombre_de_places_vehicule')) { $this->nombre_de_places = session('nombre_de_places_vehicule');}
+        if (session()->has('immatriculation_vehicule')) {$this->immatriculation = session('immatriculation_vehicule');}
+        if (session()->has('mise_en_circulation_vehicule')) { $this->mise_en_circulation = session('mise_en_circulation_vehicule');}
+        if (session()->has('valeur_neuve_vehicule')) {$this->valeur_neuve = session('valeur_neuve_vehicule');}
+        if (session()->has('valeur_venale_vehicule')) { $this->valeur_venale = session('valeur_venale_vehicule');}
+        if (session()->has('nom_carte_grise_vehicule')) {$this->nom_sur_la_carte_grise = session('nom_carte_grise_vehicule');}
+        if (session()->has('numero_police_vehicule')) {$this->numero_police = session('numero_police_vehicule');}
+        if (session()->has('date_effet_vehicule')) { $this->date_effet = session('date_effet_vehicule');}
+        if (session()->has('date_echeance_vehicule')) {$this->date_echeance = session('date_echeance_vehicule');}
+        if (session()->has('duree_vehicule')) {$this->duree = session('duree_vehicule');}
+        if (session()->has('numero_avenant_vehicule')) { $this->numero_avenant = session('numero_avenant_vehicule');}
+
+    }
 
     public $totalSteps = 4;
     public $currentStep = 1;
+
+    public function goToStep($newStep)
+    {
+        $this->currentStep = $newStep;
+    }
 
     public function mount(){
         $this->currentStep = 1;
@@ -193,12 +247,13 @@ class FormulaireApporter extends Component
           $this->resetErrorBag();
           if($this->currentStep == 4){
             $this->validate([
-            'bris_de_glace'=>'required',
-            'avance_sur_recours'=>'required',
-            'defence_et_recours'=>'required',
-            'personne_transportees'=>'required',
+             'bris_de_glace'=>'required',
+             'avance_sur_recours'=>'required',
+             'defence_et_recours'=>'required',
+             'personne_transportees'=>'required',
             ]);
           }
+          
           $avance_sur_recours_capital_garanti=0;
           $defence_et_recours_capital_garanti=0;
           if($this->defence_et_recours==4000){ $defence_et_recours_capital_garanti=250000;}
@@ -334,55 +389,37 @@ class FormulaireApporter extends Component
         $thierce_complete_total=0;
             if ($this->thierce_complete!=0) {
                 if ($this->categorie==1) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('categorie1');
                  $taux=$req_taux[0]->categorie1;
                  $thierce_complete_total=($taux/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                // dd();
                 }
                 if ($this->categorie==20 or $this->categorie==21 or $this->categorie==22) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('categorie2');
                  $taux=$req_taux[0]->categorie2;
                  $thierce_complete_total=($taux/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                 //dd($thierce_complete_total);
                 }   
             }
             $thierce_collision_total=0;
             if ($this->thierce_collision!=0) {
                 if ($this->categorie==1) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_collision_automobiles')->where('franchise','=',$this->thierce_collision)->get('categorie1');
                  $taux_collision=$req_taux[0]->categorie1;
                  $thierce_collision_total=($taux_collision/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                 //dd($taux_collision,$thierce_collision_total);
                 }
                 if (($this->categorie==20 or $this->categorie==21 or $this->categorie==22) and $this->puissance<9) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_collision_automobiles')->where('franchise','=',$this->thierce_collision)->get('categorie2_moins_9_cv');
                  $taux=$req_taux[0]->categorie2_moins_9_cv;
                  $thierce_collision_total=($taux/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                 //dd($taux,$thierce_collision_total);
                 }
                 if (($this->categorie==20 or $this->categorie==21 or $this->categorie==22) and $this->puissance>9) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_collision_automobiles')->where('franchise','=',$this->thierce_collision)->get('categorie2_plus_9_cv');
                  $taux=$req_taux[0]->categorie2_plus_9_cv;
                  $thierce_collision_total=($taux/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                // dd($taux,$thierce_collision_total);
                 } 
                 if ($this->categorie==30 or $this->categorie==31) {
-                 //$req_franchise=DB::table('thierce_complete_automobiles')->where('franchise','=',$this->thierce_complete)->get('franchise');
                  $req_taux=DB::table('thierce_collision_automobiles')->where('franchise','=',$this->thierce_collision)->get('categorie3_4');
                  $taux=$req_taux[0]->categorie3_4;
                  $thierce_collision_total=($taux/100)*$this->valeur_neuve;
-                 //$franchise=$req_franchise[0]->franchise;
-                 //dd($taux,$thierce_collision_total);
                 }   
             }
             if ($this->incendie=='oui') {
@@ -552,24 +589,64 @@ class FormulaireApporter extends Component
         $this->rga_askia=$this->prime_net_rc_askia*0.025;
         $this->prime_ttc_askia=$prime_net_total_askia+$this->accessoir_askia+$this->taxe_askia+$this->rga_askia;
         
-        $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
-            ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
-            ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
-            ,'energie' => $this->energie,'categorie' => $this->categorie,'nombre_de_place' => $this->nombre_de_places
-            ,'valeur_neuve' => $this->valeur_neuve,'valeur_venale' => $this->valeur_venale
-            ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
-            ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance
-            ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'vehicule','bonus_rc' => $this->bonus_rc
-            ,'thierce_complete' => $thierce_complete_total,'thierce_collision' => $thierce_collision_total
-            ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
-            ,'mise_en_circulation' => $this->mise_en_circulation,'vol' => $vol,'incendie' => $incendie,'bris_de_glace' => $prime_bris_de_glace,
-            'defence_et_recours' => $this->defence_et_recours,'avance_sur_recours' => $this->avance_sur_recours,
-            'personnes_transportees' => $this->personne_transportees,'thierce_complete_franchise' => $this->thierce_complete,'thierce_collision_franchise' => $this->thierce_collision,
-            'vol_franchise' => "30000",'defence_et_recours_capital_garanti' => $defence_et_recours_capital_garanti,'avance_sur_recours_capital_garanti' => $avance_sur_recours_capital_garanti
+        //session(['numero_client_vehicule' => $this->numero_client]);
+        session(['prenom_vehicule' => $this->prenom]);
+        session(['nom_vehicule' => $this->nom]);
+        session(['adresse_vehicule' => $this->adresse]);
+        session(['profession_client_vehicule' => $this->profession]);
+        session(['telephone_vehicule' => $this->telephone]);
+        session(['date_de_naissance_vehicule' => $this->date_de_naissance ]);
+        session(['marque_vehicule' => $this->marque]);
+        session(['modele_vehicule' => $this->modele]);
+        session(['puissance_vehicule' => $this->puissance]);
+        session(['energie_vehicule' => $this->energie]);
+        session(['categorie_vehicule' => $this->categorie]);
+        session(['nombre_de_places_vehicule' => $this->nombre_de_places]);
+        session(['immatriculation_vehicule' => $this->immatriculation]);
+        session(['mise_en_circulation_vehicule' => $this->mise_en_circulation]);
+        session(['valeur_neuve_vehicule' => $this->valeur_neuve]);
+        session(['valeur_venale_vehicule' => $this->valeur_venale]);
+        session(['nom_carte_grise_vehicule' => $this->nom_sur_la_carte_grise]);
+        session(['numero_police_vehicule' => $this->numero_police]);
+        session(['date_effet_vehicule' => $this->date_effet]);
+        session(['date_echeance_vehicule' => $this->date_echeance]);
+        session(['duree_vehicule' => $this->duree]);
+        session(['numero_avenant_vehicule' => $this->numero_avenant]);
+        session(['bonus_rc_vehicule' => $this->bonus_rc]);
+        session(['thierce_complete_vehicule' => $thierce_complete_total]);
+        session(['thierce_collision_vehicule' => $thierce_collision_total]);
+        session(['vol_vehicule' => $vol]);
+        session(['incendie_vehicule' => $incendie]);
+        session(['bris_de_glace_vehicule' => $prime_bris_de_glace]);
+        session(['defence_et_recours_vehicule' => $this->defence_et_recours]);
+        session(['avance_sur_recours_vehicule' => $this->avance_sur_recours]);
+        session(['personnes_transportees_vehicule' => $this->personne_transportees]);
+        session(['thierce_complete_franchise_vehicule' => $this->thierce_complete]);
+        session(['thierce_collision_franchise_vehicule' => $this->personne_transportees]);
+        session(['vol_franchise_vehicule' => "30000"]);
+        session(['defence_et_recours_capital_garanti_vehicule' => $defence_et_recours_capital_garanti]);
+        session(['avance_sur_recours_capital_garanti_vehicule' => $avance_sur_recours_capital_garanti]);
+        session(['id_apporter' => Auth::user()->id]);
+
+        // $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
+        //     ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
+        //     ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
+        //     ,'energie' => $this->energie,'categorie' => $this->categorie,'nombre_de_place' => $this->nombre_de_places
+        //     ,'valeur_neuve' => $this->valeur_neuve,'valeur_venale' => $this->valeur_venale
+        //     ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
+        //     ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance
+        //     ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'vehicule','bonus_rc' => $this->bonus_rc
+        //     ,'thierce_complete' => $thierce_complete_total,'thierce_collision' => $thierce_collision_total
+        //     ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
+        //     ,'mise_en_circulation' => $this->mise_en_circulation,'vol' => $vol,'incendie' => $incendie,'bris_de_glace' => $prime_bris_de_glace,
+        //     'defence_et_recours' => $this->defence_et_recours,'avance_sur_recours' => $this->avance_sur_recours,
+        //     'personnes_transportees' => $this->personne_transportees,'thierce_complete_franchise' => $this->thierce_complete,'thierce_collision_franchise' => $this->thierce_collision,
+        //     'vol_franchise' => "30000",'defence_et_recours_capital_garanti' => $defence_et_recours_capital_garanti,'avance_sur_recours_capital_garanti' => $avance_sur_recours_capital_garanti
             
-            ,'id_apporter' => Auth::user()->id]);  
-        session()->put('id_vehicule', $article->id);
+        //     ,'id_apporter' => Auth::user()->id]);  
+        // session()->put('id_vehicule', $article->id);
         
+
         session()->put('prime_net_axa', $prime_net_total_axa);
         session()->put('prime_net_amsa', $prime_net_total_amsa);
         session()->put('prime_net_cnart', $prime_net_total_cnart);
@@ -578,6 +655,7 @@ class FormulaireApporter extends Component
         session()->put('prime_net_nsia', $prime_net_total_nsia);
         session()->put('prime_net_askia', $prime_net_total_askia);
 
+        
         session()->put('accessoir_axa', $this->accessoir_axa);
         session()->put('accessoir_amsa', $this->accessoir_amsa);
         session()->put('accessoir_cnart', $this->accessoir_cnart);

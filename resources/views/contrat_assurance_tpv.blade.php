@@ -273,7 +273,7 @@
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_complete == 0) 
+            @if($assurance[0]->thierce_collision == 0) 
             --
             @else
             {{$assurance[0]->thierce_collision_franchise}}

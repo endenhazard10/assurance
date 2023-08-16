@@ -27,6 +27,9 @@ Route::get('/calcule_assurance_voyage',[CotationController::class,'calcule_assur
 
 Auth::routes();
 Route::get('contrat_assurance_vehicule', [PDFController::class, 'contrat_assurance_vehicule'])->name('contrat_assurance_vehicule')->middleware('auth');
+Route::get('proposition_contrat_assurance_vehicule', [PDFController::class, 'proposition_contrat_assurance_vehicule'])->name('proposition_contrat_assurance_vehicule')->middleware('auth');
+Route::get('proposition_contrat_assurance_tpv', [PDFController::class, 'proposition_contrat_assurance_tpv'])->name('proposition_contrat_assurance_tpv')->middleware('auth');
+Route::get('proposition_contrat_assurance_deux_roues', [PDFController::class, 'proposition_contrat_assurance_deux_roues'])->name('proposition_contrat_assurance_deux_roues')->middleware('auth');
 Route::get('carte_jaune_assurance_vehicule', [PDFController::class, 'carte_jaune_assurance_vehicule'])->name('carte_jaune_assurance_vehicule')->middleware('auth');
 
 Route::get('contrat_assurance_tpv', [PDFController::class, 'contrat_assurance_tpv'])->name('contrat_assurance_tpv')->middleware('auth');

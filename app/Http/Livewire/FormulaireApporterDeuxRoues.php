@@ -34,6 +34,7 @@ class FormulaireApporterDeuxRoues extends Component
     public $date_de_naissance;
     public $immatriculation;
     public $mise_en_circulation;
+    public $categorie;
     
     public $prime_net_rc_axa;
     public $accessoir_axa;
@@ -95,8 +96,61 @@ class FormulaireApporterDeuxRoues extends Component
     public $reduction_personne_transportees;
 
 
+
+    public function __construct()
+    {
+        $latestAssurance = DB::table('assurances')
+                    ->latest('id')
+                    ->first();
+            if ($latestAssurance) {
+                $newId = $latestAssurance->id + 1;
+                while (true) {
+                    $exists = DB::table('assurances')
+                        ->where('numero_client', $newId)
+                        ->exists();
+                    if ($exists) {
+                        $newId++;
+                    } else {
+                        break; // Sortir de la boucle si le numéro n'existe pas
+                    }
+                }
+                $lastInsertedId = $newId;
+            } else {
+                $lastInsertedId=1;
+            }
+        session(['numero_client_deux_roues' => $lastInsertedId]);
+        if (session()->has('numero_client_deux_roues')) { $this->numero_client = session('numero_client_deux_roues');}
+        if (session()->has('prenom_deux_roues')) {$this->prenom = session('prenom_deux_roues');}
+        if (session()->has('nom_deux_roues')) { $this->nom = session('nom_deux_roues');}
+        if (session()->has('adresse_deux_roues')) {$this->adresse = session('adresse_deux_roues');}
+        if (session()->has('profession_client_deux_roues')) { $this->profession = session('profession_client_deux_roues');}
+        if (session()->has('telephone_deux_roues')) {$this->telephone = session('telephone_deux_roues');}
+        if (session()->has('date_de_naissance_deux_roues')) { $this->date_de_naissance = session('date_de_naissance_deux_roues');}
+        if (session()->has('marque_deux_roues')) {$this->marque = session('marque_deux_roues');}
+        if (session()->has('modele_deux_roues')) { $this->modele = session('modele_deux_roues');}
+        if (session()->has('puissance_deux_roues')) {$this->puissance = session('puissance_deux_roues');}
+        if (session()->has('energie_deux_roues')) { $this->energie = session('energie_deux_roues');}
+        if (session()->has('categorie_deux_roues')) {$this->categorie = session('categorie_deux_roues');}
+        if (session()->has('profession_deux_roues')) {$this->categorie = session('profession_deux_roues');}
+        if (session()->has('nombre_de_places_deux_roues')) { $this->nombre_de_places = session('nombre_de_places_deux_roues');}
+        if (session()->has('immatriculation_deux_roues')) {$this->immatriculation = session('immatriculation_deux_roues');}
+        if (session()->has('mise_en_circulation_deux_roues')) { $this->mise_en_circulation = session('mise_en_circulation_deux_roues');}
+        if (session()->has('valeur_neuve_deux_roues')) {$this->valeur_neuve = session('valeur_neuve_deux_roues');}
+        if (session()->has('valeur_venale_deux_roues')) { $this->valeur_venale = session('valeur_venale_deux_roues');}
+        if (session()->has('nom_carte_grise_deux_roues')) {$this->nom_sur_la_carte_grise = session('nom_carte_grise_deux_roues');}
+        if (session()->has('numero_police_deux_roues')) {$this->numero_police = session('numero_police_deux_roues');}
+        if (session()->has('date_effet_deux_roues')) { $this->date_effet = session('date_effet_deux_roues');}
+        if (session()->has('date_echeance_deux_roues')) {$this->date_echeance = session('date_echeance_deux_roues');}
+        if (session()->has('duree_deux_roues')) {$this->duree = session('duree_deux_roues');}
+        if (session()->has('numero_avenant_deux_roues')) { $this->numero_avenant = session('numero_avenant_deux_roues');}
+    }
     public $totalSteps = 4;
     public $currentStep = 1;
+
+    public function goToStep($newStep)
+    {
+        $this->currentStep = $newStep;
+    }
 
     public function mount(){
         $this->currentStep = 1;
@@ -160,6 +214,7 @@ class FormulaireApporterDeuxRoues extends Component
                 'nom_sur_la_carte_grise'=>'required',
                 'immatriculation'=>'required',
                 'mise_en_circulation'=>'required',
+                'categorie'=>'required',
             ]);
         }
         elseif($this->currentStep == 3){
@@ -417,18 +472,42 @@ class FormulaireApporterDeuxRoues extends Component
         $this->rga_askia=$this->prime_net_rc_askia*0.025;
         $this->prime_ttc_askia=$prime_net_total_askia+$this->accessoir_askia+$this->taxe_askia+$this->rga_askia;
         
-             
-        $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
-            ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
-            ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
-            ,'energie' => $this->energie,'categorie' => 'null','nombre_de_place'=>0,'valeur_neuve'=>0,'valeur_venale'=>0
-            ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
-            ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance,'bonus_rc' => $this->bonus_rc
-            ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'deux roues'
-            ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
-            ,'mise_en_circulation' => $this->mise_en_circulation
-            ,'id_apporter' => Auth::user()->id]);  
-        session()->put('id_deux_roues', $article->id);
+        session(['prenom_deux_roues' => $this->prenom]);
+        session(['nom_deux_roues' => $this->nom]);
+        session(['adresse_deux_roues' => $this->adresse]);
+        session(['profession_client_deux_roues' => $this->profession]);
+        session(['telephone_deux_roues' => $this->telephone]);
+        session(['date_de_naissance_deux_roues' => $this->date_de_naissance ]);
+        session(['marque_deux_roues' => $this->marque]);
+        session(['modele_deux_roues' => $this->modele]);
+        session(['puissance_deux_roues' => $this->puissance]);
+        session(['profession_deux_roues' => $this->puissance]);
+        session(['energie_deux_roues' => $this->energie]);
+        session(['categorie_deux_roues' => $this->categorie]);
+        session(['nombre_de_places_deux_roues' => 0]);
+        session(['immatriculation_deux_roues' => $this->immatriculation]);
+        session(['mise_en_circulation_deux_roues' => $this->mise_en_circulation]);
+        session(['valeur_neuve_deux_roues' => 0]);
+        session(['valeur_venale_deux_roues' => 0]);
+        session(['nom_carte_grise_deux_roues' => $this->nom_sur_la_carte_grise]);
+        session(['numero_police_deux_roues' => $this->numero_police]);
+        session(['date_effet_deux_roues' => $this->date_effet]);
+        session(['date_echeance_deux_roues' => $this->date_echeance]);
+        session(['duree_deux_roues' => $this->duree]);
+        session(['numero_avenant_deux_roues' => $this->numero_avenant]);
+        session(['bonus_rc_deux_roues' => $this->bonus_rc]);
+        session(['id_apporter' => Auth::user()->id]);
+        // $article = Assurance::create(['numero_client' => $this->numero_client,'prenom' => $this->prenom
+        //     ,'nom' => $this->nom,'profession' => $this->profession,'adresse' => $this->adresse
+        //     ,'marque' => $this->marque,'modele' => $this->modele,'puissance' => $this->puissance
+        //     ,'energie' => $this->energie,'categorie' => 'null','nombre_de_place'=>0,'valeur_neuve'=>0,'valeur_venale'=>0
+        //     ,'nom_sur_la_carte_grise' => $this->nom_sur_la_carte_grise,'numero_police' => $this->numero_police
+        //     ,'date_effet' => $this->date_effet,'date_echeance' => $this->date_echeance,'bonus_rc' => $this->bonus_rc
+        //     ,'dure' => $this->duree,'numero_avenant' => $this->numero_avenant,'niveau' => 'deux roues'
+        //     ,'telephone' => $this->telephone,'immatriculation' => $this->immatriculation,'date_de_naissance' =>$this->date_de_naissance 
+        //     ,'mise_en_circulation' => $this->mise_en_circulation
+        //     ,'id_apporter' => Auth::user()->id]);  
+        // session()->put('id_deux_roues', $article->id);
         
         session()->put('prime_net_axa_deux_roues', $prime_net_total_axa);
         session()->put('prime_net_amsa_deux_roues', $prime_net_total_amsa);

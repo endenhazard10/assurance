@@ -1,4 +1,13 @@
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center mb-4">
+                @for($step = 1; $step <= 4; $step++)
+                <button class="btn @if($currentStep == $step) btn-success @else btn-primary  @endif  mr-2 @if($currentStep < $step) disabled @endif" wire:click="goToStep({{ $step }})">Étape {{ $step }}</button>
+        @endfor
+            </div>
+        </div>
+    </div>
      <form method="POST"  wire:submit.prevent="calcule">
          @csrf
          {{-- STEP 1 --}}
@@ -10,8 +19,8 @@
                     <div class="row">
                          <div class="col-md-12">
                              <div class="form-group">
-                                 <label for="">Numéro client</label>
-                                 <input type="number" name="numero_client" class="form-control" placeholder="Enter le numero du client" wire:model="numero_client">
+                                 <label for="field1">Numéro client</label>
+                                 <input type="number" id="field1" name="numero_client" disabled class="form-control" placeholder="Enter le numero du client" wire:model="numero_client">
                                  <span class="text-danger">@error('numero_client'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -19,15 +28,15 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Prénom</label>
-                                 <input type="text" name="prenom" class="form-control" placeholder="Enter le prenom" wire:model="prenom">
+                                 <label for="field2">Prénom</label>
+                                 <input type="text" id="field2" name="prenom" class="form-control" placeholder="Enter le prenom" wire:model="prenom">
                                  <span class="text-danger">@error('prenom'){{ $message }}@enderror</span>
                              </div>
                          </div>
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">nom</label>
-                                 <input type="text" class="form-control" placeholder="Enter le nom" wire:model="nom">
+                                 <label for="field3">nom</label>
+                                 <input type="text" id="field3" class="form-control" placeholder="Enter le nom" wire:model="nom">
                                  <span class="text-danger">@error('nom'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -35,15 +44,15 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Adresse</label>
-                                 <input type="text" class="form-control" placeholder="Enter l'adresse" wire:model="adresse">
+                                 <label for="field4">Adresse</label>
+                                 <input type="text" id="field4" class="form-control" placeholder="Enter l'adresse" wire:model="adresse">
                                  <span class="text-danger">@error('adresse'){{ $message }}@enderror</span>
                              </div>
                          </div>
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Profession</label>
-                                 <input type="text" class="form-control" placeholder="Enter la profession" wire:model="profession">
+                                 <label for="field5">Profession</label>
+                                 <input type="text" id="field5" class="form-control" placeholder="Enter la profession" wire:model="profession">
                                  <span class="text-danger">@error('profession'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -51,15 +60,15 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Téléphone</label>
-                                 <input type="number" class="form-control" placeholder="Enter le numero de Téléphone" wire:model="telephone">
+                                 <label for="field6">Téléphone</label>
+                                 <input type="number" id="field6" class="form-control" placeholder="Enter le numero de Téléphone" wire:model="telephone">
                                  <span class="text-danger">@error('telephone'){{ $message }}@enderror</span>
                              </div>
                          </div>
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Date de naissance</label>
-                                 <input type="date" class="form-control" placeholder="Enter la date de naissance" wire:model="date_de_naissance">
+                                 <label for="field7">Date de naissance</label>
+                                 <input type="date" id="field7" class="form-control" placeholder="Enter la date de naissance" wire:model="date_de_naissance">
                                  <span class="text-danger">@error('date_de_naissance'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -82,8 +91,8 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Marque</label>
-                                 <select class="form-control" wire:model="marque">
+                                 <label for="field8">Marque</label>
+                                 <select class="form-control" wire:model="marque" id="field8">
                                      <option value="" selected>Selectionner la marque</option>
                                      <option value="Toyota">Toyota</option>
                                      <option value="Nissan">Nissan</option>
@@ -98,8 +107,8 @@
                          </div>
                          <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Modéle</label>
-                                <input type="text" class="form-control" placeholder="Enter le modéle" wire:model="modele">
+                                <label for="field9">Modéle</label>
+                                <input type="text" id="field9" class="form-control" placeholder="Enter le modéle" wire:model="modele">
                                 <span class="text-danger">@error('modele'){{ $message }}@enderror</span>
                             </div>
                         </div>
@@ -107,8 +116,8 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Puissance</label>
-                                 <select class="form-control" wire:model="puissance">
+                                 <label for="field10">Puissance</label>
+                                 <select id="field10" class="form-control" wire:model="puissance">
                                      <option value="" selected>Selectionner la puissance</option>
                                      <option value="1">1</option>
                                      <option value="2">2</option>
@@ -139,8 +148,8 @@
                              </div></div>
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Energie</label>
-                                 <select class="form-control" wire:model="energie">
+                                 <label for="field11">Energie</label>
+                                 <select id="field11" class="form-control" wire:model="energie">
                                      <option value="" selected>Selectionner l'énergie</option>
                                      <option value="1">Gasoil</option>
                                      <option value="2">Essence</option>
@@ -153,8 +162,8 @@
                      <div class="row">
                             <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Catégorie</label>
-                                 <select class="form-control" wire:model="categorie">
+                                 <label for="field12">Catégorie</label>
+                                 <select id="field12" class="form-control" wire:model="categorie">
                                      <option value="" selected>Selectionner la catégorie</option>
                                      <option value="1"> Véhicule particulier, à usage personnel (Categorie 1)</option>
                                      <option value="20">pickup (Categorie 2)</option>
@@ -168,8 +177,8 @@
                              </div>
                             <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Nombre de places</label>
-                                <input type="number" class="form-control" placeholder="Enter le nombre de places" wire:model="nombre_de_places">
+                                <label for="field13">Nombre de places</label>
+                                <input type="number" id="field13" class="form-control" placeholder="Enter le nombre de places" wire:model="nombre_de_places">
                                 <span class="text-danger">@error('nombre_de_places'){{ $message }}@enderror</span>
                             </div>
                            </div>
@@ -177,15 +186,15 @@
                         <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Numéro immatriculation</label>
-                                <input type="text" class="form-control" placeholder="Enter le numero d'immatriculation" wire:model="immatriculation">
+                                <label for="field14">Numéro immatriculation</label>
+                                <input type="text" id="field14" class="form-control" placeholder="Enter le numero d'immatriculation" wire:model="immatriculation">
                                 <span class="text-danger">@error('immatriculation'){{ $message }}@enderror</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Premier mise en circulation</label>
-                                 <input type="date" class="form-control" placeholder="Enter la date de la premiere mise en circulation " wire:model="mise_en_circulation">
+                                 <label for="field15">Premier mise en circulation</label>
+                                 <input type="date" id="field15" class="form-control" placeholder="Enter la date de la premiere mise en circulation " wire:model="mise_en_circulation">
                                  <span class="text-danger">@error('mise_en_circulation'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -193,15 +202,15 @@
                      <div class="row">
                          <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Valeur neuve</label>
-                                <input type="number" class="form-control" placeholder="Enter la valeur neuve" wire:model="valeur_neuve">
+                                <label for="field16">Valeur neuve</label>
+                                <input type="number" id="field16" class="form-control" placeholder="Enter la valeur neuve" wire:model="valeur_neuve">
                                 <span class="text-danger">@error('valeur_neuve'){{ $message }}@enderror</span>
                             </div>
                         </div>
                          <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="">Valeur vénale</label>
-                                 <input type="number" class="form-control" placeholder="Enter la valeur venale" wire:model="valeur_venale">
+                                 <label for="field17">Valeur vénale</label>
+                                 <input type="number"  id="field17" class="form-control" placeholder="Enter la valeur venale" wire:model="valeur_venale">
                                  <span class="text-danger">@error('valeur_venale'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -209,8 +218,8 @@
                     <div class="row">
                         <div class="col-md-12">
                              <div class="form-group">
-                                 <label for="">Nom sur de la carte grise</label>
-                                 <input type="text" class="form-control" placeholder="Enter le nom sur la carte grise" wire:model="nom_sur_la_carte_grise">
+                                 <label for="field18">Nom sur de la carte grise</label>
+                                 <input type="text" id="field18" class="form-control" placeholder="Enter le nom sur la carte grise" wire:model="nom_sur_la_carte_grise">
                                  <span class="text-danger">@error('nom_sur_la_carte_grise'){{ $message }}@enderror</span>
                              </div>
                          </div>
@@ -339,7 +348,7 @@
                          <div class="col-md-6">
                              <div class="form-group">
                                  <label for="reduction_thierce_collision">Reduction</label>
-                                 <select class="form-control" wire:model="reduction_thierce_collision">
+                                 <select class="form-control" wire:model="reduction_thierce_collision" id="reduction_thierce_collision">
                                      <option value="0" selected>-- Non Choisi --</option>
                                      <option value="10" >10 %</option>
                                      <option value="15" >15 %</option>
@@ -438,8 +447,8 @@
                                 <div class="form-group">
                                     <label for="bris_de_glace">Brise de glace</label>
                                     <select class="form-control" wire:model="bris_de_glace">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui" >choisis</option>
+                                        <option value="non" selected>Non choisi</option>
+                                        <option value="oui" >Choisi</option>
                                     </select>
                                     <span class="text-danger">@error('bris_de_glace'){{ $message }}@enderror</span>
                                 </div>
@@ -463,8 +472,8 @@
                                 <div class="form-group">
                                     <label for="incendie">Incendie</label>
                                     <select class="form-control" wire:model="incendie">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui" >choisis</option>
+                                        <option value="non" selected>Non choisi</option>
+                                        <option value="oui" >Choisi</option>
                                     </select>
                                     <span class="text-danger">@error('incendie'){{ $message }}@enderror</span>
                                 </div>
@@ -487,8 +496,8 @@
                                 <div class="form-group">
                                     <label for="vol">Vol</label>
                                     <select class="form-control" wire:model="vol">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui" >choisis</option>
+                                        <option value="non" selected>Non choisi</option>
+                                        <option value="oui" >Choisi</option>
                                     </select>
                                     <span class="text-danger">@error('vol'){{ $message }}@enderror</span>
                                 </div>
@@ -557,8 +566,22 @@
                 
                
          </div>
-
      </form>
-
-
+     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fields = document.querySelectorAll("input[type='text'], input[type='number'], input[type='date'], select");
+            
+            fields.forEach((field, index) => {
+                field.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        if (index < fields.length - 1) {
+                            fields[index + 1].focus();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </div>
+

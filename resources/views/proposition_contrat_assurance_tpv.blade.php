@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Contrat assurance vehicule</title>
+    <title>Contrat assurance tpv</title>
     <style>
         body {
          font-family: "Times New Roman", Times, serif;
@@ -16,7 +16,7 @@
             <img src="https://i.postimg.cc/02ytsVtw/Axa-Egypt.png" alt="" height="100px" width="300px" style="border-radius: 10%;">
          </td>
          <td style="text-align: right; font-size:10px;">
-            CONDITIONS PARTICULIÉRES ASSURANCE AUTOMOBILE
+            CONDITIONS PARTICULIÉRES ASSURANCE AUTOMOBILE TPV
          </td>
       </tr>
       <tr>
@@ -49,9 +49,9 @@
          <td style="text-align: left; font-size:12px; letter-spacing: .2rem;line-height: 1;">
             N° de Police : 0000000A <br>
             Avenant N° : Affaire nouvelle <br>
-            Date d'effet : {{$assurance[0]->date_effet}}  <br>
-            Date d'échéance : {{$assurance[0]->date_echeance}}  <br>
-            Durée : {{$assurance[0]->dure}} jours
+            Date d'effet : {{session()->get('date_effet_tpv')}}  <br>
+            Date d'échéance : {{session()->get('date_echeance_tpv')}}  <br>
+            Durée : {{session()->get('duree_tpv')}} jours
          </td>
       </tr>
       <tr>
@@ -64,24 +64,24 @@
       </tr>
       <tr>
          <td style="text-align: left; font-size:12px; letter-spacing: .1rem;line-height: 1;">
-            Nom : {{$assurance[0]->nom}} <br>
-            Prénom : {{$assurance[0]->prenom}} <br>
-            Adresse : {{$assurance[0]->adresse}} <br>
-            Téléphone : {{$assurance[0]->telephone}} <br>
-            Profession : {{$assurance[0]->profession}} <br>
-            N° Client : {{$assurance[0]->numero_client}} <br>
-            Nom sur la carte grise : {{$assurance[0]->nom_sur_la_carte_grise}} 
+            Nom : {{ucwords(session()->get('nom_tpv'))}} <br>
+            Prénom : {{ucwords(session()->get('prenom_tpv'))}} <br>
+            Adresse : {{ucwords(session()->get('adresse_tpv'))}} <br>
+            Téléphone : {{ucwords(session()->get('telephone_tpv'))}} <br>
+            Profession : {{ucwords(session()->get('profession_tpv'))}} <br>
+            N° Client : {{ucwords(session()->get('numero_client_tpv'))}} <br>
+            Nom sur la carte grise : {{ucwords(session()->get('nom_carte_grise_tpv'))}} 
          </td>
          <td style="text-align: left; font-size:12px; letter-spacing: .2rem;line-height: 1;">
-            Marque : {{$assurance[0]->marque}} <br>
-            Modèle : {{$assurance[0]->modele}} <br>
-            N° d'immatriculation : {{$assurance[0]->immatriculation}} <br>
-            Energie : @if($assurance[0]->energie==1) Gazol @else Essence @endif <br>
-            Catégorie :  {{$assurance[0]->categorie}} <br>
-            Nombre de place : {{$assurance[0]->nombre_de_place}} <br>
-            1ère mise en circulation : {{$assurance[0]->mise_en_circulation}} <br>
-            Valeur neuve : {{$assurance[0]->valeur_neuve}} <br>
-            Valeur vénale : {{$assurance[0]->valeur_venale}}
+            Marque : {{ucwords(session()->get('marque_tpv'))}} <br>
+            Modèle : {{ucwords(session()->get('modele_tpv'))}} <br>
+            N° d'immatriculation : {{session()->get('immatriculation_tpv')}} <br>
+            Energie : @if(session()->get('energie_tpv')==1) Gazol @else Essence @endif <br>
+            Catégorie :  {{ucwords(session()->get('categorie_tpv'))}} <br>
+            Nombre de place : {{session()->get('nombre_de_places_tpv')}} <br>
+            1ère mise en circulation : {{session()->get('mise_en_circulation_tpv')}} <br>
+            Valeur neuve : {{session()->get('valeur_neuve_tpv')}} <br>
+            Valeur vénale : {{session()->get('valeur_venale_tpv')}}
          </td>
       </tr>
     </table>
@@ -118,17 +118,17 @@
             illimité
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->bonus_rc == 0) 
+            @if(session()->get('bonus_rc_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->bonus_rc}} %
+            {{session()->get('bonus_rc_tpv')}} %
             @endif
          </td>
          <td style="text-align: center;">
             --
          </td>
          <td style="text-align: center;">
-            {{$assurance[0]->responsabilite_civile}}
+            {{(int)session()->get('prime_net_axa_rc_tpv')}}
          </td>
        </tr>
        <tr>
@@ -148,7 +148,7 @@
             --
          </td>
          <td style="text-align: center;">
-            {{$assurance[0]->responsabilite_civile}}
+            --
          </td>
        </tr>
        <tr>
@@ -156,17 +156,17 @@
             Défense et recours
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->defence_et_recours == 0) 
+            @if(session()->get('defence_et_recours_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->defence_et_recours == 0) 
+            @if(session()->get('defence_et_recours_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->defence_et_recours_capital_garanti}}
+            {{(int)session()->get('defence_et_recours_capital_garanti_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
@@ -176,10 +176,10 @@
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->defence_et_recours == 0) 
+            @if(session()->get('defence_et_recours_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->defence_et_recours}}
+            {{(int)session()->get('defence_et_recours_tpv')}}
             @endif
          </td>
        </tr>
@@ -188,17 +188,17 @@
             Avance sur recours
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->avance_sur_recours == 0) 
+            @if(session()->get('avance_sur_recours_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->avance_sur_recours == 0) 
+            @if(session()->get('avance_sur_recours_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->avance_sur_recours_capital_garanti}}
+            {{(int)session()->get('avance_sur_recours_capital_garanti_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
@@ -208,10 +208,10 @@
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->avance_sur_recours == 0) 
+            @if(session()->get('avance_sur_recours_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->avance_sur_recours}}
+            {{(int)session()->get('avance_sur_recours_tpv')}}
             @endif
          </td>
        </tr>
@@ -220,34 +220,34 @@
             Thierces Complètes
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_complete == 0) 
+            @if(session()->get('thierce_complete_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_complete == 0) 
+            @if(session()->get('thierce_complete_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->valeur_venale}}
+            {{(int)session()->get('valeur_venale_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_complete == 0) 
+            @if(session()->get('thierce_complete_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->thierce_complete_franchise}}
+            {{(int)session()->get('thierce_complete_franchise_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_complete == 0) 
+            @if(session()->get('thierce_complete_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->thierce_complete}}
+            {{(int)session()->get('thierce_complete_tpv')}}
             @endif
          </td>
        </tr>
@@ -256,34 +256,34 @@
             Thierces Collisions
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_collision == 0) 
+            @if(session()->get('thierce_collision_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_collision == 0) 
+            @if(session()->get('thierce_collision_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->valeur_venale}}
+            {{(int)session()->get('valeur_venale_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_collision == 0) 
+            @if(session()->get('thierce_collision_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->thierce_collision_franchise}}
+            {{(int)session()->get('thierce_collision_franchise_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->thierce_collision == 0) 
+            @if(session()->get('thierce_collision_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->thierce_collision}}
+            {{session()->get('thierce_collision_tpv')}}
             @endif
          </td>
        </tr>
@@ -292,14 +292,14 @@
             Bris de Glaces
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->bris_de_glace == 0) 
+            @if(session()->get('brise_de_glace_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->bris_de_glace == 0) 
+            @if(session()->get('brise_de_glace_tpv') == 0) 
             --
             @else
             --
@@ -312,10 +312,10 @@
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->bris_de_glace == 0) 
+            @if(session()->get('brise_de_glace_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->bris_de_glace}}
+            {{(int)session()->get('brise_de_glace_tpv')}}
             @endif
          </td>
        </tr>
@@ -324,34 +324,34 @@
             Incendie
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->incendie == 0) 
+            @if(session()->get('incendie_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->incendie == 0) 
+            @if(session()->get('incendie_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->valeur_venale}}
+            {{(int)session()->get('valeur_venale_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->incendie == 0) 
+            @if(session()->get('incendie_tpv') == 0) 
             --
             @else
             --
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->incendie == 0) 
+            @if(session()->get('incendie_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->incendie}}
+            {{(int)session()->get('incendie_tpv')}}
             @endif
          </td>
        </tr>
@@ -360,34 +360,34 @@
             Vol
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->vol == 0) 
+            @if(session()->get('vol_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->vol == 0) 
+            @if(session()->get('vol_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->valeur_venale}}
+            {{(int)session()->get('valeur_venale_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
             --
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->vol == 0) 
+            @if(session()->get('vol_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->vol_franchise}}
+            {{(int)session()->get('vol_franchise_tpv')}}
             @endif
          </td>
          <td style="text-align: center;">
-            @if($assurance[0]->vol == 0) 
+            @if(session()->get('vol_tpv') == 0) 
             --
             @else
-            {{$assurance[0]->vol}}
+            {{(int)session()->get('vol_tpv')}}
             @endif
          </td>
        </tr>
@@ -402,11 +402,11 @@
             <td style="text-align: center;">Prime TTC</td>
          </tr>
          <tr>
-            <td style="text-align: center;">{{$assurance[0]->prime_nette}}</td>
-            <td style="text-align: center;">{{$assurance[0]->accessoires}}</td>
-            <td style="text-align: center;">{{$assurance[0]->taxes}}</td>
-            <td style="text-align: center;">{{$assurance[0]->rga}}</td>
-            <td style="text-align: center;">{{$assurance[0]->prime_ttc}}</td>
+            <td style="text-align: center;">{{(int)session()->get('prime_net_axa_tpv')}}</td>
+            <td style="text-align: center;">{{(int)session()->get('accessoir_axa_tpv')}}</td>
+            <td style="text-align: center;">{{(int)session()->get('taxe_axa_tpv')}}</td>
+            <td style="text-align: center;">{{(int)session()->get('rga_axa_tpv')}}</td>
+            <td style="text-align: center;">{{(int)session()->get('prime_ttc_axa_tpv')}}</td>
          </tr>
     </table>
     <p  style="font-size:11px; letter-spacing: .1rem;"> &rsaquo; La prise d'effet de la garantie est subordonnée au paiement intégral de la prime conformément à l'article 13 du code CIMA.
@@ -414,8 +414,8 @@
      &rsaquo; Le souscripteur reconnaît avoir reçu, en sus des conditions générales de la police d'assurance automobile, les présentes conditions particulières
       et les clauses relatives aux garanties souscrites, et avoir pris pleine connaissance des dispositions du contrat auxquelles il adhère sans restrictions
       ni réserves. <br>
-    &rsaquo; Les garanties cesseront leurs effets, de plein droit et sans autre avis, le {{$assurance[0]->date_echeance}} à 24 heures. </p>
-    <p  style="font-size:12px; letter-spacing: .1rem;text-align:center;"> Fait à Dakar en trois exemplaires, le {{$assurance[0]->date_effet}}</p>
+    &rsaquo; Les garanties cesseront leurs effets, de plein droit et sans autre avis, le {{session()->get('date_echeance_tpv')}} à 24 heures. </p>
+    <p  style="font-size:12px; letter-spacing: .1rem;text-align:center;"> Fait à Dakar en trois exemplaires, le {{session()->get('date_effet_tpv')}}</p>
     <table width="100%">
       <tr>
          <td>
