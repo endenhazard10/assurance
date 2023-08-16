@@ -1,8 +1,10 @@
-@extends('layouts.default',['title'=>'Connexion admin'])
+@extends('layouts.default', ['title' => 'Connexion admin'])
 @section('content')
-@include('layouts.partials.carou')
-<div class="wrapper bg-white">
-        <div class="text-center"><p class="font-weight-bold">Formulaire de connexion pour l'administrateur</p></div>
+    @include('layouts.partials.carou')
+    <div class="wrapper bg-white">
+        <div class="text-center">
+            <p class="font-weight-bold">Formulaire de connexion pour l'administrateur</p>
+        </div>
         <form class="pt-3">
             <div class="form-group py-2">
                 <div class="input-field">

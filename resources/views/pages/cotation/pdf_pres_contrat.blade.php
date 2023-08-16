@@ -1,7 +1,7 @@
 <?php
 session_start();
 ob_start();
-require_once("pdf/fpdf.php");
+require_once 'pdf/fpdf.php';
 $PDF = new fpdf();
 $PDF->AddPage();
 

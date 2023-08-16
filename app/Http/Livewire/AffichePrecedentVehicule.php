@@ -1,22 +1,28 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+
 class AffichePrecedentVehicule extends Component
 {
-    public $accepter=false;
-    public function previousStep(){
+    public $accepter = false;
+    public function previousStep()
+    {
         return redirect()->route('calcule_assurance_vehicule');
     }
-    public function retourFormulaire(){
+    public function retourFormulaire()
+    {
         return redirect()->route('cotation_apporter_automobile_vehicule');
     }
-    public function retourApporter(){
+    public function retourApporter()
+    {
         return redirect()->route('dashboard_apporter');
     }
-    public function accepter(){
-        $this->accepter=true;
+    public function accepter()
+    {
+        $this->accepter = true;
         session(['accepter' => $this->accepter]);
         return redirect()->route('cotation_apporter_document_axa');
     }

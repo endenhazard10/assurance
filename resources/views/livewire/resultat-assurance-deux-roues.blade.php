@@ -17,7 +17,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_document_axa_deux_roues')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_axa_deux_roues')}} FCFA</h6></a>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_axa_deux_roues')}} FCFA</h6></a>
                             <p class="card-text font-weight-bold">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
                             </p>
@@ -31,7 +31,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_deux_roues')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_cnart_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_cnart_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text font-weight-bold">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
@@ -46,7 +46,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_tpv')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_wafa_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_wafa_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text font-weight-bold">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
@@ -61,7 +61,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_vehicule')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_amsa_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_amsa_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
@@ -82,7 +82,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_deux_roues')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_allianz_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_allianz_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
@@ -98,7 +98,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_tpv')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_nsia_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_nsia_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>
@@ -114,7 +114,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{route('cotation_apporter_automobile_tpv')}}" class=" text-decoration-none text-dark font-weight-bold">
-                                <h6>PRIME TTC : {{session()->get('prime_ttc_askia_deux_roues')}} FCFA</h6>
+                                <h6>PRIME TTC : {{(int)session()->get('prime_ttc_askia_deux_roues')}} FCFA</h6>
                             </a>
                             <p class="card-text">
                                <h6 style="color:#007BFF;">DUREE : {{session()->get('duree_deux_roues')}} mois</h6>

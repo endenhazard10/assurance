@@ -283,7 +283,7 @@
             @if(session()->get('thierce_collision_tpv') == 0) 
             --
             @else
-            {{session()->get('thierce_collision_tpv')}}
+            {{(int)session()->get('thierce_collision_tpv')}}
             @endif
          </td>
        </tr>
@@ -292,14 +292,14 @@
             Bris de Glaces
          </td>
          <td style="text-align: center;">
-            @if(session()->get('brise_de_glace_tpv') == 0) 
+            @if(session()->get('bris_de_glace_tpv') == 0) 
             non garanti
             @else
             garanti
             @endif
          </td>
          <td style="text-align: center;">
-            @if(session()->get('brise_de_glace_tpv') == 0) 
+            @if(session()->get('bris_de_glace_tpv') == 0) 
             --
             @else
             --
@@ -312,10 +312,10 @@
             --
          </td>
          <td style="text-align: center;">
-            @if(session()->get('brise_de_glace_tpv') == 0) 
+            @if(session()->get('bris_de_glace_tpv') == 0) 
             --
             @else
-            {{(int)session()->get('brise_de_glace_tpv')}}
+            {{(int)session()->get('bris_de_glace_tpv')}}
             @endif
          </td>
        </tr>

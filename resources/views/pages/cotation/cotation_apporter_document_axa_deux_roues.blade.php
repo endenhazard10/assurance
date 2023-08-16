@@ -1,5 +1,5 @@
-@extends('layouts.default',['title'=>'Home apporter automobile'])
+@extends('layouts.default', ['title' => 'Home apporter automobile'])
 @section('content')
-<br>
-@livewire('affiche-precedent-deux-roues')
+    <br>
+    @livewire('affiche-precedent-deux-roues')
 @stop
