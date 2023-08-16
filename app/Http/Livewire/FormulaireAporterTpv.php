@@ -636,6 +636,7 @@ class FormulaireAporterTpv extends Component
         session(['thierce_complete_franchise_tpv' => $this->thierce_complete]);
         session(['thierce_collision_franchise_tpv' => $this->thierce_collision]);
         session(['vol_franchise_tpv' => "30000"]);
+        session(['incendie_franchise_tpv' => "30000"]);
         session(['defence_et_recours_capital_garanti_tpv' => $defence_et_recours_capital_garanti]);
         session(['avance_sur_recours_capital_garanti_tpv' => $avance_sur_recours_capital_garanti]);
         session(['id_apporter_tpv' => Auth::user()->id]);

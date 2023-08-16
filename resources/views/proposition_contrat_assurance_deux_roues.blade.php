@@ -53,7 +53,7 @@
                 Avenant N° : Affaire nouvelle <br>
                 Date d'effet : {{ session()->get('date_effet_deux_roues') }} <br>
                 Date d'échéance : {{ session()->get('date_echeance_deux_roues') }} <br>
-                Durée : {{ session()->get('duree_deux_roues') }} jours
+                Durée : {{ session()->get('duree_deux_roues') }} Mois
             </td>
         </tr>
         <tr>
@@ -84,7 +84,6 @@
                     Essence
                 @endif <br>
                 Catégorie : {{ ucwords(session()->get('categorie_deux_roues')) }} <br>
-                Nombre de place : {{ session()->get('nombre_de_places_deux_roues') }} <br>
                 1ère mise en circulation : {{ session()->get('mise_en_circulation_deux_roues') }} <br>
             </td>
         </tr>

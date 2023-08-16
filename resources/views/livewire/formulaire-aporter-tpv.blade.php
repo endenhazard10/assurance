@@ -573,7 +573,7 @@
                                 <div class="form-group">
                                     <label for="field33">Tarif Defense et Recours</label>
                                     <select class="form-control" id="field33" wire:model="defence_et_recours">
-                                        <option value="0" selected>CAPITAL GARANTI</option>
+                                        <option value="0" selected>Capital Garanti</option>
                                         <option value="4000" selected>250000</option>
                                         <option value="7500" selected>400000</option>
                                     </select>
@@ -607,8 +607,8 @@
                                 <div class="form-group">
                                     <label for="field35">Brise de glace</label>
                                     <select class="form-control" id="field35" wire:model="bris_de_glace">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui">choisis</option>
+                                        <option value="non" selected>Non choisi</option>
+                                        <option value="oui">Choisi</option>
                                     </select>
                                     <span class="text-danger">
                                         @error('bris_de_glace')
@@ -641,8 +641,8 @@
                                 <div class="form-group">
                                     <label for="field37">Incendie</label>
                                     <select class="form-control" id="field37" wire:model="incendie">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui" selected>choisis</option>
+                                        <option value="non" selected>Non choisi</option>
+                                        <option value="oui" selected>Choisi</option>
                                     </select>
                                     <span class="text-danger">
                                         @error('incendie')
@@ -673,8 +673,8 @@
                                 <div class="form-group">
                                     <label for="field39">Vol</label>
                                     <select class="form-control" id="field39" wire:model="vol">
-                                        <option value="non" selected>non choisis</option>
-                                        <option value="oui">choisis</option>
+                                        <option value="non" selected>Non Choisi</option>
+                                        <option value="oui">Choisi</option>
                                     </select>
                                     <span class="text-danger">
                                         @error('vol')

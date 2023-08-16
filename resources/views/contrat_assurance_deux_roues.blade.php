@@ -53,7 +53,7 @@
                 Avenant N° : Affaire nouvelle <br>
                 Date d'effet : {{ $assurance[0]->date_effet }} <br>
                 Date d'échéance : {{ $assurance[0]->date_echeance }} <br>
-                Durée : {{ $assurance[0]->dure }} jours
+                Durée : {{ $assurance[0]->dure }} Mois
             </td>
         </tr>
         <tr>
@@ -72,7 +72,7 @@
                 Téléphone : {{ $assurance[0]->telephone }} <br>
                 Profession : {{ ucwords($assurance[0]->profession) }} <br>
                 N° Client : {{ ucwords($assurance[0]->numero_client) }} <br>
-                Nom sur la carte grise : {{ ucwords($assurance[0]->nom) }}
+                Nom sur la carte grise : {{ ucwords($assurance[0]->nom_sur_la_carte_grise) }}
             </td>
             <td style="text-align: left; font-size:12px; letter-spacing: .2rem;line-height: 1;">
                 Marque : {{ ucwords($assurance[0]->marque) }} <br>
@@ -84,7 +84,6 @@
                     Essence
                 @endif <br>
                 Catégorie : {{ ucwords($assurance[0]->categorie) }} <br>
-                Nombre de place : {{ $assurance[0]->nombre_de_place }} <br>
                 1ère mise en circulation : {{ $assurance[0]->mise_en_circulation }} <br>
             </td>
         </tr>

@@ -53,7 +53,7 @@
                 Avenant N° : Affaire nouvelle <br>
                 Date d'effet : {{ $assurance[0]->date_effet }} <br>
                 Date d'échéance : {{ $assurance[0]->date_echeance }} <br>
-                Durée : {{ $assurance[0]->dure }} jours
+                Durée : {{ $assurance[0]->dure }} Mois
             </td>
         </tr>
         <tr>
@@ -350,7 +350,7 @@
                 @if ($assurance[0]->incendie == 0)
                     --
                 @else
-                    --
+                {{ $assurance[0]->incendie_franchise }}
                 @endif
             </td>
             <td style="text-align: center;">

@@ -53,7 +53,7 @@
                 Avenant N° : Affaire nouvelle <br>
                 Date d'effet : {{ session()->get('date_effet_vehicule') }} <br>
                 Date d'échéance : {{ session()->get('date_echeance_vehicule') }} <br>
-                Durée : {{ session()->get('duree_vehicule') }} jours
+                Durée : {{ session()->get('duree_vehicule') }} Mois
             </td>
         </tr>
         <tr>
@@ -66,24 +66,24 @@
         </tr>
         <tr>
             <td style="text-align: left; font-size:12px; letter-spacing: .1rem;line-height: 1;">
-                Nom : {{ session()->get('nom_vehicule') }} <br>
-                Prénom : {{ session()->get('prenom_vehicule') }} <br>
-                Adresse : {{ session()->get('adresse_vehicule') }} <br>
+                Nom : {{ ucwords(session()->get('nom_vehicule')) }} <br>
+                Prénom : {{ ucwords(session()->get('prenom_vehicule')) }} <br>
+                Adresse : {{ ucwords(session()->get('adresse_vehicule')) }} <br>
                 Téléphone : {{ session()->get('telephone_vehicule') }} <br>
-                Profession : {{ session()->get('profession_client_vehicule') }} <br>
+                Profession : {{ ucwords(session()->get('profession_client_vehicule')) }} <br>
                 N° Client : {{ session()->get('numero_client_vehicule') }} <br>
-                Nom sur la carte grise : {{ session()->get('nom_carte_grise_vehicule') }}
+                Nom sur la carte grise : {{ ucwords(session()->get('nom_carte_grise_vehicule')) }}
             </td>
             <td style="text-align: left; font-size:12px; letter-spacing: .2rem;line-height: 1;">
-                Marque : {{ session()->get('marque_vehicule') }} <br>
-                Modèle : {{ session()->get('modele_vehicule') }} <br>
+                Marque : {{ ucwords(session()->get('marque_vehicule'))}} <br>
+                Modèle : {{ ucwords(session()->get('modele_vehicule')) }} <br>
                 N° d'immatriculation : {{ session()->get('immatriculation_vehicule') }} <br>
                 Energie : @if (session()->get('energie_vehicule') == 1)
                     Gazol
                 @else
                     Essence
                 @endif <br>
-                Catégorie : {{ session()->get('categorie_vehicule') }} <br>
+                Catégorie : {{ ucwords(session()->get('categorie_vehicule')) }} <br>
                 Nombre de place : {{ session()->get('nombre_de_places_vehicule') }} <br>
                 1ère mise en circulation : {{ session()->get('mise_en_circulation_vehicule') }} <br>
                 Valeur neuve : {{ (int) session()->get('valeur_neuve_vehicule') }} <br>
@@ -154,7 +154,7 @@
                 --
             </td>
             <td style="text-align: center;">
-                {{ (int) session()->get('prime_net_axa_rc') }}
+                --
             </td>
         </tr>
         <tr>
@@ -350,7 +350,7 @@
                 @if (session()->get('incendie_vehicule') == 0)
                     --
                 @else
-                    --
+                 {{session()->get('incendie_franchise_vehicule')}}
                 @endif
             </td>
             <td style="text-align: center;">

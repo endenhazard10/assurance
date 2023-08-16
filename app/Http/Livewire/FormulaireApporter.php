@@ -624,6 +624,7 @@ class FormulaireApporter extends Component
         session(['thierce_complete_franchise_vehicule' => $this->thierce_complete]);
         session(['thierce_collision_franchise_vehicule' => $this->personne_transportees]);
         session(['vol_franchise_vehicule' => "30000"]);
+        session(['incendie_franchise_vehicule' => "30000"]);
         session(['defence_et_recours_capital_garanti_vehicule' => $defence_et_recours_capital_garanti]);
         session(['avance_sur_recours_capital_garanti_vehicule' => $avance_sur_recours_capital_garanti]);
         session(['id_apporter' => Auth::user()->id]);

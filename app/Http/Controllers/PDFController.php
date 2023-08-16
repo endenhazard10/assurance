@@ -73,6 +73,7 @@ class PDFController extends Controller
                 'mise_en_circulation' => session()->get('mise_en_circulation_tpv'),
                 'vol' => session()->get('vol_tpv'),
                 'incendie' => session()->get('incendie_tpv'),
+                'incendie_franchise' => session()->get('incendie_franchise_tpv'),
                 'bris_de_glace' => session()->get('bris_de_glace_tpv'),
                 'defence_et_recours' => session()->get('defence_et_recours_tpv'),
                 'avance_sur_recours' => session()->get('avance_sur_recours_tpv'),
@@ -183,8 +184,9 @@ class PDFController extends Controller
                 'valeur_venale' => session()->get('valeur_venale_vehicule')
                 ,
                 'nom_sur_la_carte_grise' => session()->get('nom_carte_grise_vehicule'),
-                'numero_police' => session()->get('numero_police_vehicule')
-                ,
+                'numero_police' => session()->get('numero_police_vehicule'),
+                'incendie_franchise' => session()->get('incendie_franchise_vehicule'),
+                
                 'date_effet' => session()->get('date_effet_vehicule'),
                 'date_echeance' => session()->get('date_echeance_vehicule')
                 ,
@@ -351,7 +353,6 @@ class PDFController extends Controller
             $sumOfCommissions = $calcule->sum('commissions_apporteur');
         } else {
             $assurance = DB::table('assurances')->where('id', '=', session()->get('id_deux_roues'))->get();
-            dd(session()->get('prime_net_axa_deux_roues'));
         }
 
         $data = [
