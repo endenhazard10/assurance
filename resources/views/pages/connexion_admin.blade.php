@@ -24,7 +24,7 @@
               <!-- Name input-->
               <div class="form-floating mb-3">
                   <input class="form-control" name="password" required placeholder="Entrer votre mot de passe"
-                      type="text" data-sb-validations="required" />
+                      type="password" data-sb-validations="required" />
                   <label for="name">Entrer votre mot de passe</label>
                   @error('password')
                       <span class="invalid-feedback" role="alert">
