@@ -1,5 +1,12 @@
 <div>
     <section class="bg-light" style="margin-bottom: 100px;">
+        <br>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary btn-lg" wire:click="previousStep">
+                <img src="{{ asset('images/precedent.png') }}" width="50px" alt="">Précédent
+            </button>
+            <!-- Le contenu de votre étape actuelle -->
+        </div>
         <div class="container py-5">
             <div class="row text-center py-3">
             </div>

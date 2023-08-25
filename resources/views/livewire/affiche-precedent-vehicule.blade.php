@@ -8,13 +8,13 @@
         </div>
         {{-- @if (session()->get('accepter') == true)  --}}
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-dark btn-lg" wire:click="retourFormulaire">
+            <button class="btn btn-primary btn-lg" wire:click="retourFormulaire">
                 Retour au formulaire
             </button>
             <!-- Le contenu de votre étape actuelle -->
         </div>
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-warning btn-lg" wire:click="retourApporter">
+            <button class="btn btn-primary btn-lg" wire:click="retourApporter">
                 Acceder au tableau de bord
             </button>
             <!-- Le contenu de votre étape actuelle -->
@@ -55,6 +55,19 @@
                             <a href="{{ route('contrat_assurance_vehicule') }}"
                                 class=" text-decoration-none text-dark font-weight-bold">Valider la proposition et
                                 Imprimer le contrat</a>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 mb-3">
+                    <div class="card h-100">
+                        <a href="{{ route('facture_assurance_vehicule') }}">
+                            <img src="{{ asset('images/facture.jpg') }}" class="card-img-top img-b" alt="...">
+                        </a>
+                        <div class="card-body centrer-text">
+                            <a href="{{ route('facture_assurance_vehicule') }}"
+                                class=" text-decoration-none text-dark font-weight-bold">
+                                Imprimer la facture</a>
                             <p class="card-text"></p>
                         </div>
                     </div>

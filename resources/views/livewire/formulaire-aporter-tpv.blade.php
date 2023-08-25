@@ -126,6 +126,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    @if ($marque != 'Autre')
                                     <label for="field8">Marque</label>
                                     <select class="form-control" id="field8" wire:model="marque">
                                         <option value="" selected>Selectionner la marque</option>
@@ -136,12 +137,22 @@
                                         <option value="Renauld">Renauld</option>
                                         <option value="Mercedes">Mercedes</option>
                                         <option value="Ford">Ford</option>
+                                        <option value="Autre">Autre</option>
                                     </select>
                                     <span class="text-danger">
                                         @error('marque')
                                             {{ $message }}
                                         @enderror
                                     </span>
+                                    @endif
+                                    @if ($marque === 'Autre')
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Marque</label>
+                                        <input type="text" class="form-control" placeholder="Entrer la marque" wire:model="autre" />
+                                    </div>
+                                </div>
+                                @endif
                                 </div>
                             </div>
                             <div class="col-md-6">

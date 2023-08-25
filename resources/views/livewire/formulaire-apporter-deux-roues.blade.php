@@ -121,22 +121,14 @@
         @if ($currentStep == 2)
             <div class="step-one">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 2/4 - Véhicule</div>
+                    <div class="card-header bg-primary text-white">STEP 2/4 - Deux roues</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="field8">Marque</label>
-                                    <select class="form-control" id="field8" wire:model="marque">
-                                        <option value="" selected>Selectionner la marque</option>
-                                        <option value="Toyota">Toyota</option>
-                                        <option value="Nissan">Nissan</option>
-                                        <option value="Audi">Audi</option>
-                                        <option value="Yamaha">Yamaha</option>
-                                        <option value="Renauld">Renauld</option>
-                                        <option value="Mercedes">Mercedes</option>
-                                        <option value="Ford">Ford</option>
-                                    </select>
+                                    <input type="text" id="field8" class="form-control"
+                                        placeholder="Enter la marque" wire:model="marque">
                                     <span class="text-danger">
                                         @error('marque')
                                             {{ $message }}
@@ -211,7 +203,7 @@
                                     <label for="field13">Categories</label>
                                     <select class="form-control" id="field13" wire:model="categorie">
                                         <option value="" selected>Selectionner la categorie</option>
-                                        <option value="categorie 5">categorie 5</option>
+                                        <option value="5">categorie 5</option>
                                     </select>
                                     <span class="text-danger">
                                         @error('categorie')

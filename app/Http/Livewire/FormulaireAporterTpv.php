@@ -103,6 +103,7 @@ class FormulaireAporterTpv extends Component
     public $reduction_incendie;
     public $reduction_vol;
     public $reduction_personne_transportees;
+    public $autre;
 
     public function __construct()
     {
@@ -131,7 +132,7 @@ class FormulaireAporterTpv extends Component
         if (session()->has('prenom_tpv')) {$this->prenom = session('prenom_tpv');}
         if (session()->has('nom_tpv')) {$this->nom = session('nom_tpv');}
         if (session()->has('adresse_tpv')) {$this->adresse = session('adresse_tpv');}
-        if (session()->has('profession_client_tpv')) {$this->profession = session('profession_client_tpv');}
+        if (session()->has('profession_tpv')) {$this->profession = session('profession_tpv');}
         if (session()->has('telephone_tpv')) {$this->telephone = session('telephone_tpv');}
         if (session()->has('date_de_naissance_tpv')) {$this->date_de_naissance = session('date_de_naissance_tpv');}
         if (session()->has('marque_tpv')) {$this->marque = session('marque_tpv');}
@@ -215,6 +216,9 @@ class FormulaireAporterTpv extends Component
                 'date_de_naissance' => 'required',
             ]);
         } elseif ($this->currentStep == 2) {
+            if($this->marque=='Autre'){
+                $this->marque=$this->autre;
+            }
             $this->validate([
                 'marque' => 'required',
                 'modele' => 'required',

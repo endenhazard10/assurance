@@ -8,13 +8,13 @@
         </div>
         {{-- @if (session()->get('accepter_deux_roues') == true)  --}}
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-dark btn-lg" wire:click="retourFormulaire">
+            <button class="btn btn-primary btn-lg" wire:click="retourFormulaire">
                 Retour au formulaire
             </button>
             <!-- Le contenu de votre étape actuelle -->
         </div>
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-warning btn-lg" wire:click="retourApporter">
+            <button class="btn btn-primary btn-lg" wire:click="retourApporter">
                 Acceder au tableau de bord
             </button>
             <!-- Le contenu de votre étape actuelle -->

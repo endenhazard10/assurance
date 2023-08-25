@@ -1,5 +1,6 @@
 <div>
     <section class="bg-light">
+        <br>
         <div class="d-flex justify-content-between">
             <button class="btn btn-primary btn-lg" wire:click="previousStep">
                 <img src="{{asset('images/precedent.png')}}" width="50px" alt="">Précédent

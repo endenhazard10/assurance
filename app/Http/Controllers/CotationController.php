@@ -24,6 +24,7 @@ class CotationController extends Controller
     }
     public function cotation_apporter_voyage()
     {
+        Session::forget(['accepter_voyage']);
         return view('pages.cotation.cotation_apporter_voyage');
     }
     public function cotation_apporter_automobile_vehicule()

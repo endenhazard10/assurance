@@ -17,11 +17,8 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-    
     <div class="wrapper">
-        
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
@@ -69,10 +66,18 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{route('admin.dashboard')}}" class="nav-link">
+                                <i class="fa fa-check-square" aria-hidden="true"></i>
                                 <p>
-                                     Home
+                                     Home Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('creer_apporter')}}" class="nav-link">
+                                <i class="fa fa-check-square" aria-hidden="true"></i>
+                                <p>
+                                     Creer apporter
                                 </p>
                             </a>
                         </li>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assurance;
+use App\Models\AssuranceVoyage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use PDF;
@@ -28,6 +29,18 @@ class PDFController extends Controller
     {
         $pdf = PDF::loadView('proposition_contrat_assurance_tpv');
         return $pdf->download('proposition_contrat_assurance_tpv.pdf');
+    }
+    public function facture_assurance_vehicule(){
+        $date = date('d-m-Y');
+        $assurance = DB::table('assurances')->where('id', '=', session()->get('id_vehicule'))->get();
+        $data = [
+            'title' => 'Welcome to LaravelTuts.com',
+            'date' => date('m/d/Y'),
+            'assurance' => $assurance,
+            'date'=> $date
+        ];
+        $pdf = PDF::loadView('facture_assurance_vehicule',$data);
+        return $pdf->download('facture_assurance_vehicule.pdf');
     }
     public function contrat_assurance_tpv()
     {
@@ -117,7 +130,7 @@ class PDFController extends Controller
             'prenom_tpv',
             'nom_tpv',
             'adresse_tpv',
-            'profession_client_tpv',
+            'profession_tpv',
             'telephone_tpv'
             ,
             'date_de_naissance_tpv',
@@ -407,15 +420,51 @@ class PDFController extends Controller
     }
     public function contrat_assurance_voyage()
     {
+        $article = AssuranceVoyage::create(['prenom' => session()->get('prenom_voyage')
+        , 'nom' => session()->get('nom_voyage'), 'profession' => session()->get('profession_voyage'), 'adresse' => session()->get('adresse_voyage'), 'numero_police' => session()->get('numero_police_voyage')
+        , 'numero_passport' => session()->get('numero_passeport_voyage'), 'date_validite_passeport' => session()->get('date_validite_voyage'), 'motif_voyage' => session()->get('motif_voyage')
+        , 'pays' => session()->get('destination_voyage'), 'formule' => session()->get('formule_voyage'), 'date_depart' => session()->get('date_depart_voyage'), 'age' => session()->get('age_voyage')
+        , 'date_retour' => session()->get('date_depart_voyage'), 'duree' => session()->get('duree_voyage'), 'date_de_naissance' => session()->get('date_de_naissance_voyage')
+        , 'id_apporter' => session()->get('id_apporter')]);
+
+        session()->put('id_voyage', $article->id);
+        DB::table('assurance_voyages')->where('id', session()->get('id_voyage'))->update(array('valider' => "1"));
+        DB::table('assurance_voyages')->where('id', session()->get('id_voyage'))->update(array('prime_ttc' =>session()->get('prime_ttc_axa_voyage')));
+
         $assurance = DB::table('assurance_voyages')->where('id', '=', session()->get('id_voyage'))->get();
         $data = [
             'title' => 'Welcome to LaravelTuts.com',
             'date' => date('m/d/Y'),
             'assurance' => $assurance,
         ];
-        DB::table('assurance_voyages')->where('id', session()->get('id_voyage'))->update(array('valider' => "1"));
+        
+
+        Session::forget([
+            'numero_passeport_voyage',
+            'prenom_voyage',
+            'nom_voyage',
+            'adresse_voyage',
+            'profession_voyage'
+            ,
+            'motif_voyage',
+            'date_validite_voyage',
+            'age_voyage',
+            'date_de_naissance_voyage',
+            'numero_police_voyage',
+            'formule_voyage',
+            'destination_voyage'
+            ,
+            'date_depart_voyage',
+            'date_retour_voyage',
+            'duree_voyage',
+        ]);
         $pdf = PDF::loadView('contrat_assurance_voyage', $data);
         return $pdf->download('contrat_assurance_voyage.pdf');
+    }
+    public function proposition_contrat_assurance_voyage()
+    {
+        $pdf = PDF::loadView('proposition_contrat_assurance_voyage');
+        return $pdf->download('proposition_contrat_assurance_voyage.pdf');
     }
 
     public function carte_jaune_assurance_tpv()

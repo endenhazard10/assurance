@@ -30,14 +30,14 @@
     </div>
     <div class="container" style="margin-top: 100px;margin-bottom:100px">
         <div class="row">
-            @if (session()->get('accepter_tpv') == false)
+            @if (session()->get('accepter_voyage') == false)
                 <div class="col-12 col-md-3 mb-3">
                     <div class="card h-100">
-                        <a href="{{ route('proposition_contrat_assurance_tpv') }}">
+                        <a href="{{ route('proposition_contrat_assurance_voyage') }}">
                             <img src="{{ asset('images/contrat.jpg') }}" class="card-img-top img-b" alt="...">
                         </a>
                         <div class="card-body centrer-text">
-                            <a href="{{ route('proposition_contrat_assurance_tpv') }}"
+                            <a href="{{ route('proposition_contrat_assurance_voyage') }}"
                                 class=" text-decoration-none text-dark font-weight-bold">Proposition de contrat</a>
                             <p class="card-text">
 
@@ -46,14 +46,14 @@
                     </div>
                 </div>
             @endif
-            @if (session()->get('accepter_tpv') == true)
+            @if (session()->get('accepter_voyage') == true)
                 <div class="col-12 col-md-3 mb-3">
                     <div class="card h-100">
-                        <a href="{{ route('contrat_assurance_tpv') }}">
+                        <a href="{{ route('contrat_assurance_voyage') }}">
                             <img src="{{ asset('images/contrat_fini.jpg') }}" class="card-img-top img-b" alt="...">
                         </a>
                         <div class="card-body centrer-text">
-                            <a href="{{ route('contrat_assurance_tpv') }}"
+                            <a href="{{ route('contrat_assurance_voyage') }}"
                                 class=" text-decoration-none text-dark font-weight-bold">Valider la proposition et
                                 Imprimer le contrat</a>
                             <p class="card-text"></p>

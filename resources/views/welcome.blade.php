@@ -1,8 +1,7 @@
 @extends('layouts.default',['title'=>'Home'])
+@include('layouts.partials.header')
 @section('content')
-@include('layouts.partials.carou')
-
-    <!-- Start Featured Product -->
+{{-- @include('layouts.partials.carou') --}}
     <section class="bg-light">
         <div class="container py-5">
             <div class="row text-center py-3">
@@ -21,8 +20,7 @@
                         <div class="card-body centrer-text">
                             <a href="{{route('connexion_admin')}}" class=" text-decoration-none text-dark font-weight-bold">Admistrateur</a>
                             <p class="card-text">
-                               
-                            </p>
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -40,5 +38,4 @@
         </div>
     </section>
     <!-- End Featured Product -->
-
 @stop

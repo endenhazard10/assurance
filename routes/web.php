@@ -28,12 +28,14 @@ Route::get('/calcule_assurance_voyage',[CotationController::class,'calcule_assur
 Auth::routes();
 Route::get('contrat_assurance_vehicule', [PDFController::class, 'contrat_assurance_vehicule'])->name('contrat_assurance_vehicule')->middleware('auth');
 Route::get('proposition_contrat_assurance_vehicule', [PDFController::class, 'proposition_contrat_assurance_vehicule'])->name('proposition_contrat_assurance_vehicule')->middleware('auth');
+Route::get('facture_assurance_vehicule', [PDFController::class, 'facture_assurance_vehicule'])->name('facture_assurance_vehicule')->middleware('auth');
 Route::get('proposition_contrat_assurance_tpv', [PDFController::class, 'proposition_contrat_assurance_tpv'])->name('proposition_contrat_assurance_tpv')->middleware('auth');
 Route::get('proposition_contrat_assurance_deux_roues', [PDFController::class, 'proposition_contrat_assurance_deux_roues'])->name('proposition_contrat_assurance_deux_roues')->middleware('auth');
 Route::get('carte_jaune_assurance_vehicule', [PDFController::class, 'carte_jaune_assurance_vehicule'])->name('carte_jaune_assurance_vehicule')->middleware('auth');
 
 Route::get('contrat_assurance_tpv', [PDFController::class, 'contrat_assurance_tpv'])->name('contrat_assurance_tpv')->middleware('auth');
 Route::get('contrat_assurance_voyage', [PDFController::class, 'contrat_assurance_voyage'])->name('contrat_assurance_voyage')->middleware('auth');
+Route::get('proposition_contrat_assurance_voyage', [PDFController::class, 'proposition_contrat_assurance_voyage'])->name('proposition_contrat_assurance_voyage')->middleware('auth');
 Route::get('contrat_assurance_deux_roues', [PDFController::class, 'contrat_assurance_deux_roues'])->name('contrat_assurance_deux_roues')->middleware('auth');
 Route::get('carte_jaune_assurance_tpv', [PDFController::class, 'carte_jaune_assurance_tpv'])->name('carte_jaune_assurance_tpv')->middleware('auth');
 //Route::get('generate-contrat', [PDFController::class, 'generateContrat'])->name('generate-contrat')->middleware('auth');
@@ -70,7 +72,9 @@ Route::group(['prefix' => 'admin'], function() {
 	});
 	
 	Route::group(['middleware' => 'admin.auth'], function(){
+		Route::get('/creer_apporter',[App\Http\Controllers\AdminController::class, 'creer_apporter'])->name('creer_apporter');
 		Route::get('/dashboard',[App\Http\Controllers\DashboardController::class, 'dashboard'])->name('admin.dashboard');
 		Route::post('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('admin.logout');
+		Route::post('/enregistrer_apporter', [App\Http\Controllers\AdminController::class, 'enregistrer_apporter'])->name('enregistrer_apporter');
 	});
 });

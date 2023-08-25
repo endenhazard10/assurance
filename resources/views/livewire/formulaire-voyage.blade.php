@@ -1,4 +1,15 @@
 <div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center mb-4">
+                @for ($step = 1; $step <= 4; $step++)
+                    <button
+                        class="btn @if ($currentStep == $step) btn-success @else btn-primary @endif  mr-2 @if ($currentStep < $step) disabled @endif"
+                        wire:click="goToStep({{ $step }})">Étape {{ $step }}</button>
+                @endfor
+            </div>
+        </div>
+    </div>
     <form method="POST" wire:submit.prevent="calcule">
         @csrf
         {{-- STEP 1 --}}

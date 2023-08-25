@@ -1,61 +1,53 @@
-@extends('layouts.master',['title'=>'Connexion administrateur'])
+@extends('layouts.default',['title'=>'Connexion administrateur'])
 @section('content')
-@include('layouts.partials.carou')
 <br>
     <section class="text-center">
-        <!-- Background image -->
-        <div class="p-5 bg-image" style="
-              
-              height: 100px;
-              "></div>
-        <!-- Background image -->
-      
-        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
-              margin-top: -100px;
-              background: #E8EAF3;
-              backdrop-filter: blur(30px);
-              ">
-          <div class="card-body py-5 px-md-5">
-      
-            <div class="row d-flex justify-content-center">
-              <div class="col-lg-8">
-                <h2 class="fw-bold mb-5">Connexion Administrateur</h2>
-                <form method="POST" action="{{ route('admin.auth') }}">
-                    @csrf 
-                  <div class="form-outline mb-4">
-                    <input type="text" name="email" value="{{ old('email') }}" placeholder="Username or Email Address" class="form-control">
-                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                     @enderror
-                  </div>
-      
-                  <!-- Password input -->
-                  <div class="form-outline mb-4">
-                    <input type="password" name="password" required  placeholder="Enter your Password" required class="form-control">
-                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                    @enderror
-                  </div>
-
-                  <!-- Submit button -->
-                  <button type="submit" class="btn btn-primary btn-block mb-4">
-                    Connexion
-                  </button>
-                  <!-- Register buttons -->
-                </form>
-                @if(Session::get('error'))
-                    <div class="col-md-12">
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    </div>
-                @endif
-              </div>
+      <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
+        <div class="col-lg-6">
+            <!-- to get an API token!-->
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6 text-center">
+                    <h2 class="mt-0">Connexion administrateur</h2>
+                    <hr class="divider" />
+                    <p class="text-muted mb-5">Ce formulaire permet à l'administrateur de se connecter !</p>
+                </div>
             </div>
-          </div>
+            <form id="contactForm" data-sb-form-api-token="API_TOKEN" method="POST" action="{{ route('admin.auth') }}">
+                @csrf
+                <!-- Email address input-->
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="email" type="email" placeholder="Entrer votre emil" name="email" value="{{ old('email') }}"
+                        data-sb-validations="required,email" />
+                    <label for="email">Entrer Votre adresse email</label>
+                    <div class="invalid-feedback" data-sb-feedback="email:required">L'email est requis.</div>
+                    <div class="invalid-feedback" data-sb-feedback="email:email">L'email est non valide.</div>
+                </div>
+                <!-- Name input-->
+                <div class="form-floating mb-3">
+                    <input class="form-control" name="password" required placeholder="Entrer votre mot de passe"
+                        type="text" data-sb-validations="required" />
+                    <label for="name">Entrer votre mot de passe</label>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="d-none" id="submitErrorMessage">
+                    <div class="text-center text-danger mb-3">Error sending message!</div>
+                </div>
+                <div class="d-grid"><button class="btn btn-primary btn-xl" type="submit">Valider</button></div>
+            </form>
+            @if (Session::get('error'))
+            <div class="col-md-12">
+                <div class="alert alert-danger">{{ Session::get('error') }}</div>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-danger">Adresse Mail ou mot de passe incorrect</div>
+            </div>
+        @endif
         </div>
+    </div>
 </section>
 <br>
 @endsection

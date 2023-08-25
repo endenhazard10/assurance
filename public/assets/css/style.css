@@ -3,7 +3,9 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    user-select: none;
 }
+/* Exemple : Désactiver la sélection de texte */
 body{
     background-color: #5d32f8;
     height: 100vh;

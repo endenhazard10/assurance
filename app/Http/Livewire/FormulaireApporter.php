@@ -104,6 +104,8 @@ class FormulaireApporter extends Component
     public $reduction_vol;
     public $reduction_personne_transportees;
 
+    public $autre;
+
     public function __construct()
     {
         $latestAssurance = DB::table('assurances')
@@ -194,7 +196,7 @@ class FormulaireApporter extends Component
             //dd($this->date_echeance);
         }
     }
-
+    
     public function updatedDuree()
     {
         if ($this->date_effet != null and $this->duree != null) {
@@ -204,7 +206,7 @@ class FormulaireApporter extends Component
             //dd($this->date_echeance);
         }
     }
-
+    
     public function validateData()
     {
 
@@ -219,8 +221,11 @@ class FormulaireApporter extends Component
                 'date_de_naissance' => 'required',
             ]);
         } elseif ($this->currentStep == 2) {
+            if($this->marque=='Autre'){
+                $this->marque=$this->autre;
+            }
             $this->validate([
-                'marque' => 'required',
+                'marque' => 'required|not_in:AUTRE',
                 'modele' => 'required',
                 'puissance' => 'required',
                 'energie' => 'required',
@@ -232,6 +237,7 @@ class FormulaireApporter extends Component
                 'immatriculation' => 'required',
                 'mise_en_circulation' => 'required',
             ]);
+
         } elseif ($this->currentStep == 3) {
             $this->validate([
                 'numero_police' => 'required',
@@ -253,7 +259,7 @@ class FormulaireApporter extends Component
                 'personne_transportees' => 'required',
             ]);
         }
-
+        
         $avance_sur_recours_capital_garanti = 0;
         $defence_et_recours_capital_garanti = 0;
         if ($this->defence_et_recours == 4000) {$defence_et_recours_capital_garanti = 250000;}
