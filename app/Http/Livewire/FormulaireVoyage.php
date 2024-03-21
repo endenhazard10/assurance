@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\AssuranceVoyage;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Session;
 use Livewire\WithFileUploads;
 
 class FormulaireVoyage extends Component
@@ -31,12 +33,35 @@ class FormulaireVoyage extends Component
     public $age_requete;
     public $destination_requete;
     public $duree_requete;
+    public $numero_client;
+    
 
     public $totalSteps = 2;
     public $currentStep = 1;
 
     public function __construct()
     {
+        $latestAssurance = DB::table('assurance_voyages')
+        ->latest('id')
+        ->first();
+    if ($latestAssurance) {
+        $newId = $latestAssurance->id + 1;
+        while (true) {
+            $exists = DB::table('assurance_voyages')
+                ->where('numero_client', $newId)
+                ->exists();
+            if ($exists) {
+                $newId++;
+            } else {
+                break; // Sortir de la boucle si le numéro n'existe pas
+            }
+        }
+        $lastInsertedId = $newId;
+    } else {
+        $lastInsertedId = 1;
+    }
+        session(['numero_client_voyage' => $lastInsertedId]);
+        if (session()->has('numero_client_voyage')) {$this->numero_client = session('numero_client_voyage');}
         if (session()->has('numero_passeport_voyage')) {$this->numero_passeport = session('numero_passeport_voyage');}
         if (session()->has('prenom_voyage')) {$this->prenom = session('prenom_voyage');}
         if (session()->has('nom_voyage')) {$this->nom = session('nom_voyage');}
@@ -56,6 +81,9 @@ class FormulaireVoyage extends Component
 
     public function goToStep($newStep)
     {
+        if($newStep > $this->currentStep){
+            $this->validateData();
+        }
         $this->currentStep = $newStep;
     }
 
@@ -64,7 +92,30 @@ class FormulaireVoyage extends Component
     {
         $this->currentStep = 1;
     }
-
+    public function updatedDateDepart()
+    {
+        if ($this->date_depart != null and $this->date_retour != null) {
+            $date_depart = Carbon::parse($this->date_depart);
+            $date_retour = Carbon::parse($this->date_retour);
+            $resultat_duree = $date_depart->diffInDays($date_retour);
+            $this->duree=$resultat_duree+1;
+            //dd($this->duree);
+            //dd($this->date_echeance);
+        }
+    }
+    
+    public function updatedDateRetour()
+    {
+        if ($this->date_depart != null and $this->date_retour != null) {
+            $date_depart = Carbon::parse($this->date_depart);
+            $date_retour = Carbon::parse($this->date_retour);
+            $resultat_duree = $date_depart->diffInDays($date_retour);
+            $this->duree=$resultat_duree+1;
+            //dd($this->duree);
+            //$this->date_echeance=$date;
+            //dd($this->date_echeance);
+        }
+    }
     public function increaseStep()
     {
         $this->resetErrorBag();
@@ -100,6 +151,35 @@ class FormulaireVoyage extends Component
             ]);
         }
     }
+    public function vider_le_formulaire(){
+        Session::forget([
+            'numero_passeport_voyage',
+            'prenom_voyage',
+            'nom_voyage',
+            'adresse_voyage'
+            ,
+            'profession_voyage',
+            'motif_voyage',
+            'date_validite_voyage',
+            'age_voyage',
+            'date_de_naissance_voyage',
+            'numero_police_voyage',
+            'formule_voyage'
+            ,
+            'destination_voyage',
+            'date_depart_voyage',
+            'date_retour_voyage',
+            'duree_voyage',
+            'date_effet_voyage',
+
+            'prime_ttc_axa_voyage',
+            'taxe_axa_voyage',
+            'accessoire_voyage',
+
+            'id_apporter',
+       ]);
+        return redirect()->route('cotation_apporter_voyage');
+    }
     public function calcule()
     {
         $this->resetErrorBag();
@@ -120,13 +200,16 @@ class FormulaireVoyage extends Component
         if ($this->destination == "monde entier") {$this->destination_requete = "z2";} else { $this->destination_requete = "z1";}
 
         if ($this->duree >= 1 and $this->duree <= 7) {$this->duree_requete = "d1";}
-        if ($this->duree >= 1 and $this->duree <= 10) {$this->duree_requete = "d2";}
-        if ($this->duree >= 1 and $this->duree <= 15) {$this->duree_requete = "d3";}
-        if ($this->duree >= 1 and $this->duree <= 21) {$this->duree_requete = "d4";}
-        if ($this->duree >= 1 and $this->duree <= 32) {$this->duree_requete = "d5";}
-        if ($this->duree >= 1 and $this->duree <= 62) {$this->duree_requete = "d6";}
-        if ($this->duree >= 1 and $this->duree <= 93) {$this->duree_requete = "d7";}
-        $requete_axa = DB::table('voyage_prime_t_t_c_s')->where('zone_destination', '=', $this->destination_requete)->where('age', '=', $this->age_requete)->where('duree', '=', $this->duree_requete)->get('prime_ttc');
+        if ($this->duree >= 8 and $this->duree <= 10) {$this->duree_requete = "d2";}
+        if ($this->duree >= 11 and $this->duree <= 15) {$this->duree_requete = "d3";}
+        if ($this->duree >= 16 and $this->duree <= 21) {$this->duree_requete = "d4";}
+        if ($this->duree >= 22 and $this->duree <= 32) {$this->duree_requete = "d5";}
+        if ($this->duree >= 33 and $this->duree <= 62) {$this->duree_requete = "d6";}
+        if ($this->duree >= 63 and $this->duree <= 93) {$this->duree_requete = "d7";}
+        if ($this->duree >= 64 and $this->duree <= 180) {$this->duree_requete = "mv1";}
+        if ($this->duree >= 181 and $this->duree <= 365) {$this->duree_requete = "mv2";}
+        $requete_axa = DB::table('voyage_prime_t_t_c_s')->where('zone_destination', '=', $this->destination_requete)->where('age', '=', $this->age_requete)->where('duree', '=', $this->duree_requete)->get();
+        
         //dd($requete_axa[0]->prime_ttc);
         session(['numero_passeport_voyage' => $this->numero_passeport]);
         session(['prenom_voyage' => $this->prenom]);
@@ -155,6 +238,9 @@ class FormulaireVoyage extends Component
         // session()->put('id_voyage', $article->id);
 
         session()->put('prime_ttc_axa_voyage', $requete_axa[0]->prime_ttc);
+        session()->put('prime_nette_axa_voyage', $requete_axa[0]->prime_nette);
+        session()->put('taxe_axa_voyage', $requete_axa[0]->taxes);
+        session()->put('accessoire_axa_voyage', $requete_axa[0]->accessoires);
         session()->put('duree_voyage', $this->duree);
         return redirect()->route('calcule_assurance_voyage');
         //dd($this->duree_requete,$this->age_requete,$this->destination_requete);

@@ -18,7 +18,7 @@
                         </a>
                         <div class="card-body centrer-text">
                             <a href="{{ route('cotation_apporter') }}"
-                                class=" text-decoration-none text-dark font-weight-bold">Cotation</a>
+                                class=" text-decoration-none text-dark font-weight-bold">Tarification</a>
                             <p class="card-text">
 
                             </p>

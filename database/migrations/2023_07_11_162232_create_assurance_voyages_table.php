@@ -15,6 +15,7 @@ class CreateAssuranceVoyagesTable extends Migration
     {
         Schema::create('assurance_voyages', function (Blueprint $table) {
             $table->id();
+            $table->string("numero_client");
             $table->string("prenom");
             $table->string("nom");
             $table->string("date_de_naissance");

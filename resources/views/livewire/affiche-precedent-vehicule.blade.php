@@ -1,27 +1,27 @@
 <div>
     <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-primary btn-lg" wire:click="previousStep">
-                <img src="{{ asset('images/precedent.png') }}" width="50px" alt="">Précédent
+            <button class="btn btn-primary btn-sm btn-custom" wire:click="previousStep">
+                <img src="{{ asset('images/precedent.png') }}" width="10px" alt="">Précédent
             </button>
             <!-- Le contenu de votre étape actuelle -->
         </div>
         {{-- @if (session()->get('accepter') == true)  --}}
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-primary btn-lg" wire:click="retourFormulaire">
+            <button class="btn btn-primary btn-sm btn-custom" wire:click="retourFormulaire">
                 Retour au formulaire
             </button>
             <!-- Le contenu de votre étape actuelle -->
         </div>
         <div class="d-flex justify-content-between" style="margin-left: 50px !important">
-            <button class="btn btn-primary btn-lg" wire:click="retourApporter">
+            <button class="btn btn-primary btn-sm btn-custom" wire:click="retourApporter">
                 Acceder au tableau de bord
             </button>
             <!-- Le contenu de votre étape actuelle -->
         </div>
         {{-- @endif --}}
         <div class="d-flex justify-content-between" style="margin-right: 50px !important">
-            <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#confirmationModal">
+            <button class="btn btn-danger btn-sm btn-custom" data-toggle="modal" data-target="#confirmationModal">
                 Valider la souscription
             </button>
             <!-- Le contenu de votre étape actuelle -->
@@ -59,6 +59,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-12 col-md-3 mb-3">
                     <div class="card h-100">
                         <a href="{{ route('facture_assurance_vehicule') }}">
@@ -72,6 +73,7 @@
                         </div>
                     </div>
                 </div>
+               
             @endif
             <!-- Modal de Confirmation -->
             <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
@@ -117,7 +119,6 @@
             confirmerBtn.addEventListener("click", function() {
                 $("#confirmationModal").modal("hide");
                 modalOverlay.style.display = "none";
-
                 // Rafraîchir la page
                 location.reload();
             });
@@ -136,6 +137,7 @@
             const handleBeforeUnload = function(event) {
                 event.preventDefault();
                 event.returnValue = "";
+                location.reload();
             };
 
             // Désactiver la navigation lorsque la boîte de confirmation est affichée
@@ -143,4 +145,20 @@
         });
     </script>
 
+{{-- <script>
+    document.addEventListener("livewire:load", function () {
+        Livewire.hook('message.sent', (message, component) => {
+            // After Livewire message is sent, reset the hasUnsavedChanges flag
+            @this.hasUnsavedChanges = false;
+        });
+
+        window.addEventListener('beforeunload', function (event) {
+            if (@this.hasUnsavedChanges) {
+                var message = "The changes you made may not be saved.";
+                event.returnValue = message; // Standard for most browsers
+                return message; // For some older browsers
+            }
+        });
+    });
+</script> --}}
 </div>

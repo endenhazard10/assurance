@@ -7,6 +7,8 @@ use Flashy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use PDF;
 
 class CotationController extends Controller
 {
@@ -20,6 +22,7 @@ class CotationController extends Controller
     }
     public function cotation_apporter_habitation()
     {
+        Session::forget(['accepter_mrh']);
         return view('pages.cotation.cotation_apporter_habitation');
     }
     public function cotation_apporter_voyage()
@@ -50,6 +53,14 @@ class CotationController extends Controller
         }
         return view('pages.cotation.resultat_assurance');
     }
+    public function calcule_assurance_mrh()
+    {
+        Flashy::success('Le formulaire soumis avec succès veuillez choisir la compagnie !');
+        if (session()->get('accepter_mrh') == true) {
+            return redirect()->route('cotation_apporter_habitation');
+        }
+        return view('pages.cotation.resultat_assurance_mrh');
+    }
     public function calcule_assurance_tpv()
     {
         return view('pages.cotation.resultat_assurance_tpv');
@@ -60,6 +71,12 @@ class CotationController extends Controller
     }
     public function dashboard_apporter()
     {
+        // $month = 9;
+        // $year = now()->year;
+        // $assurances = DB::table('assurances')
+        // ->whereRaw('MONTH(created_at) = ? AND YEAR(created_at) = ?', [$month, $year])
+        // ->get();
+        // dd($assurances );
         $apporter = DB::table('users')->where('id', Auth::user()->id)->get();
         $requete = DB::table('assurances')->where('niveau', 'vehicule')->where('valider', '1')->orderBy('id', 'desc')->paginate(10);
         $moisActuel = now()->format('F');
@@ -76,6 +93,16 @@ class CotationController extends Controller
         $dernierJour = Carbon::now()->lastOfMonth();
         $voyages = DB::table('assurance_voyages')->orderBy('id', 'desc')->where('valider', '1')->paginate(10);
         return view('pages.cotation.dashboard_apporter_voyage', compact('voyages', 'moisActuel', 'apporter', 'premierJour', 'dernierJour'));
+
+    }
+    public function dashboard_apporter_mrh()
+    {
+        $apporter = DB::table('users')->where('id', Auth::user()->id)->get();
+        $moisActuel = now()->format('F');
+        $premierJour = Carbon::now()->firstOfMonth();
+        $dernierJour = Carbon::now()->lastOfMonth();
+        $requete = DB::table('assurance_mrhs')->orderBy('id', 'desc')->where('valider', '1')->paginate(10);
+        return view('pages.cotation.dashboard_apporter_mrh', compact('requete', 'moisActuel', 'apporter', 'premierJour', 'dernierJour'));
 
     }
     public function dashboard_apporter_deux_roues()
@@ -108,6 +135,19 @@ class CotationController extends Controller
         // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('prime_ttc' => session()->get('prime_ttc_axa')));
 
         return view('pages.cotation.cotation_apporter_document_axa');
+    }
+    public function cotation_apporter_document_axa_mrh()
+    {
+        Flashy::success('Voici les documents proposés !');
+        // $req=DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('assurance_choisit' => "axa"));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('responsabilite_civile' => session()->get('prime_net_axa_rc')));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('prime_nette' => session()->get('prime_net_axa')));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('taxes' => session()->get('taxe_axa')));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('accessoires' => session()->get('accessoir_axa')));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('rga' => session()->get('rga_axa')));
+        // DB::table('assurances')->where('id', session()->get('id_vehicule'))->update(array('prime_ttc' => session()->get('prime_ttc_axa')));
+
+        return view('pages.cotation.cotation_apporter_document_axa_mrh');
     }
     public function cotation_apporter_document_axa_tpv()
     {
@@ -152,5 +192,50 @@ class CotationController extends Controller
             return redirect()->route('cotation_apporter_automobile_deux_roues');
         }
         return view('pages.cotation.calcule_assurance_deux_roues');
+    }
+    public function imprimer_contrat_vehicule(Request $request){
+        $assurance = DB::table('assurances')->where('numero_client', $request->id)->get();
+        //dd($assurance[0]->numero_client);
+        session(['numero_client_vehicule' => $assurance[0]->numero_client]);
+        require app_path('Http/fichier/enregistrer_vehicule.php');
+        $pdf = PDF::loadView('contrat_assurance_vehicule', $data);
+        return $pdf->download('contrat_assurance_vehicule.pdf');
+        
+    }
+    public function imprimer_contrat_deux_roues(Request $request){
+        $assurance = DB::table('assurances')->where('numero_client', $request->id)->get();
+        //dd($assurance[0]->numero_client);
+        session(['numero_client_deux_roues' => $assurance[0]->numero_client]);
+        require app_path('Http/fichier/enregistrer_deux_roues.php');
+        $pdf = PDF::loadView('contrat_assurance_deux_roues', $data);
+        return $pdf->download('contrat_assurance_deux_roues.pdf');
+        
+    }
+    public function imprimer_contrat_tpv(Request $request){
+        $assurance = DB::table('assurances')->where('numero_client', $request->id)->get();
+        //dd($assurance[0]->numero_client);
+        session(['numero_client_tpv' => $assurance[0]->numero_client]);
+        require app_path('Http/fichier/enregistrer_tpv.php');
+        $pdf = PDF::loadView('contrat_assurance_tpv', $data);
+        return $pdf->download('contrat_assurance_tpv.pdf');
+        
+    }
+    public function imprimer_contrat_mrh(Request $request){
+        $assurance = DB::table('assurance_mrhs')->where('numero_client', $request->id)->get();
+        //dd($assurance[0]->numero_client);
+        session(['numero_client_mrh' => $assurance[0]->numero_client]);
+        require app_path('Http/fichier/enregistrer_mrh.php');
+        $pdf = PDF::loadView('contrat_assurance_mrh', $data);
+        return $pdf->download('contrat_assurance_mrh.pdf');
+        
+    }
+    public function imprimer_contrat_voyage(Request $request){
+        $assurance = DB::table('assurance_voyages')->where('numero_client', $request->id)->get();
+        //dd($assurance[0]->numero_client);
+        session(['numero_client_voyage' => $assurance[0]->numero_client]);
+        require app_path('Http/fichier/enregistrer_voyage.php');
+        $pdf = PDF::loadView('contrat_assurance_voyage', $data);
+        return $pdf->download('contrat_assurance_voyage.pdf');
+        
     }
 }

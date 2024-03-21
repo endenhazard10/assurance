@@ -2,25 +2,54 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-center mb-4">
-                @for ($step = 1; $step <= 4; $step++)
+                @for ($step = 1; $step <= 2; $step++)
                     <button
-                        class="btn @if ($currentStep == $step) btn-success @else btn-primary @endif  mr-2 @if ($currentStep < $step) disabled @endif"
+                        class="btn btn-custome @if ($currentStep == $step) btn-danger @else btn-primary @endif  mr-2"
                         wire:click="goToStep({{ $step }})">Étape {{ $step }}</button>
                 @endfor
+                @if (session()->get('nom_voyage'))
+                <div><button class="btn btn-custome btn-primary mr-2" wire:click="vider_le_formulaire()">Vidé le formulaire</button></div>
+                @endif
             </div>
         </div>
     </div>
-    <form method="POST" wire:submit.prevent="calcule">
-        @csrf
-        {{-- STEP 1 --}}
+    
+    <form method="POST" wire:submit.prevent="calcule">   
+        @csrf    
+        {{-- STEP 1 --}}  
         @if ($currentStep == 1)
-            <div class="step-two">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 1/2 - Assuré / Souscripteur</div>
+            <div class="step-two" style="width: 150%; margin-left:-22%;"> 
+                <div class="card">  
+                    <div style="background-color: #ec008c !important" class="card-header bg-primary text-white">STEP 1/2 - Assuré / Souscripteur</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="field1">Numéro client</label>
+                                    <input type="number" id="field1" name="numero_client" disabled min="0"
+                                        class="form-control" placeholder="Entrer le numero du client"
+                                        wire:model="numero_client">
+                                    <span class="text-danger">
+                                        @error('numero_client')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Entrer votre date de naissance</label>
+                                    <input type="date" name="date_de_naissance" class="form-control"
+                                        placeholder="Enter votre age" wire:model="date_de_naissance">
+                                    <span class="text-danger">
+                                        @error('date_de_naissance')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">   
+                                <div class="form-group"> 
                                     <label for="">Prénom</label>
                                     <input type="text" name="prenom" class="form-control"
                                         placeholder="Enter le prenom" wire:model="prenom">
@@ -31,9 +60,11 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">nom</label>
+                                    <label for="">Nom</label>
                                     <input type="text" class="form-control" placeholder="Enter le nom"
                                         wire:model="nom">
                                     <span class="text-danger">
@@ -43,9 +74,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Adresse</label>
                                     <input type="text" class="form-control" placeholder="Enter l'adresse"
@@ -57,7 +86,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Profession</label>
                                     <input type="text" class="form-control" placeholder="Enter la profession"
@@ -71,7 +100,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Numero Passeport</label>
                                     <input type="text" class="form-control"
@@ -83,7 +112,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Motif du voyage</label>
                                     <input type="text" class="form-control" placeholder="Enter le motif du voyage"
@@ -95,12 +124,10 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Entrer votre age</label>
-                                    <input type="number" name="age" class="form-control"
+                                    <input type="number" name="age" class="form-control" min="0"
                                         placeholder="Enter votre age" wire:model="age">
                                     <span class="text-danger">
                                         @error('age')
@@ -109,7 +136,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Date de validité Passeport</label>
                                     <input type="text" name="date_validite" class="form-control"
@@ -122,20 +151,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="">Entrer votre date de naissance</label>
-                                    <input type="date" name="date_de_naissance" class="form-control"
-                                        placeholder="Enter votre age" wire:model="date_de_naissance">
-                                    <span class="text-danger">
-                                        @error('date_de_naissance')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -145,12 +161,12 @@
 
         @if ($currentStep == 2)
 
-            <div class="step-one">
+            <div class="step-one" style="width: 150%; margin-left:-22%;">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 2/2 - DESTINATION</div>
+                    <div style="background-color: #ec008c !important" class="card-header bg-primary text-white">STEP 2/2 - DESTINATION</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Zone de pays de destination</label>
                                     <select class="form-control" wire:model="destination">
@@ -415,7 +431,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Selectionner la formule</label>
                                     <select class="form-control" wire:model="formule">
@@ -431,10 +447,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Date de départ</label>
                                     <input type="date" class="form-control" placeholder="Enter la date de depart"
@@ -446,7 +459,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Date de retour</label>
                                     <input type="date" class="form-control" placeholder="Enter la date de retour"
@@ -458,13 +473,11 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Durée en jours</label>
-                                    <input type="number" class="form-control" placeholder="Enter la durée"
-                                        wire:model="duree">
+                                    <input type="text" class="form-control" placeholder="Enter la durée" min="0"
+                                        wire:model="duree" value="{{ $duree }}" disabled>
                                     <span class="text-danger">
                                         @error('duree')
                                             {{ $message }}
@@ -472,10 +485,10 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Enter le numéro de la police</label>
-                                    <input type="number" class="form-control"
+                                    <input type="text" class="form-control" min="0"
                                         placeholder="Enter le numéro de la police" wire:model="numero_police">
                                     <span class="text-danger">
                                         @error('$numero_police')

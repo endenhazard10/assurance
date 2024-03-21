@@ -163,25 +163,19 @@
                     PRIME NETTE
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    77 000
+                    {{ ucfirst(session()->get('prime_nette_axa_voyage')) }}
                 </td>
                 <td>
                     Accessoires
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    10 000
+                    {{ ucfirst(session()->get('accessoire_axa_voyage')) }}
                 </td>
                 <td>
-                    TCA
+                    Taxes
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    7 000
-                </td>
-                <td>
-                    PCA
-                </td>
-                <td style="text-align: left;font-size:13px;">
-                    0
+                    {{ ucfirst(session()->get('taxe_axa_voyage')) }}
                 </td>
                 <td style="font-size:13px;">
                     PRIME TTC

@@ -29,8 +29,8 @@ class FormulaireApporter extends Component
     public $date_effet;
     public $date_echeance;
     public $duree;
-    public $valeur_neuve;
-    public $valeur_venale;
+    public $valeur_neuve=0;
+    public $valeur_venale=0;
     public $responsabilite_civile;
     public $thierce_complete = 0;
     public $thierce_collision = 0;
@@ -160,6 +160,9 @@ class FormulaireApporter extends Component
 
     public function goToStep($newStep)
     {
+        if($newStep > $this->currentStep){
+            $this->validateData();
+        }
         $this->currentStep = $newStep;
     }
 
@@ -186,6 +189,53 @@ class FormulaireApporter extends Component
             $this->currentStep = 1;
         }
     }
+    public function vider_le_formulaire(){
+        Session::forget([
+            'prenom_vehicule',
+            'nom_vehicule',
+            'adresse_vehicule',
+            'profession_client_vehicule',
+            'telephone_vehicule'
+            ,
+            'date_de_naissance_vehicule',
+            'marque_vehicule',
+            'modele_vehicule',
+            'puissance_vehicule',
+            'energie_vehicule',
+            'categorie_vehicule',
+            'nombre_de_places_vehicule'
+            ,
+            'immatriculation_vehicule',
+            'mise_en_circulation_vehicule',
+            'valeur_neuve_vehicule',
+            'valeur_venale_vehicule',
+            'nom_carte_grise_vehicule',
+            'numero_police_vehicule',
+            'date_effet_vehicule',
+            'date_echeance_vehicule',
+            'duree_vehicule',
+            'numero_avenant_vehicule',
+            'bonus_rc_vehicule',
+            'thierce_complete_vehicule'
+            ,
+            'thierce_collision_vehicule',
+            'vol_vehicule',
+            'incendie_vehicule',
+            '',
+            'bris_de_glace_vehicule',
+            'defence_et_recours_vehicule',
+            'thierce_complete_franchise_vehicule'
+            ,
+            'avance_sur_recours_vehicule',
+            'personnes_transportees_vehicule',
+            'thierce_collision_franchise_vehicule',
+            'vol_franchise_vehicule'
+            ,
+            'defence_et_recours_capital_garanti_vehicule',
+            'avance_sur_recours_capital_garanti_vehicule',
+        ]);
+        return redirect()->route('cotation_apporter_automobile_vehicule');
+    }
 
     public function updatedDateEffet()
     {
@@ -206,7 +256,7 @@ class FormulaireApporter extends Component
             //dd($this->date_echeance);
         }
     }
-    
+   
     public function validateData()
     {
 
@@ -231,9 +281,6 @@ class FormulaireApporter extends Component
                 'energie' => 'required',
                 'categorie' => 'required',
                 'nombre_de_places' => 'required',
-                'valeur_neuve' => 'required',
-                'valeur_venale' => 'required',
-                'nom_sur_la_carte_grise' => 'required',
                 'immatriculation' => 'required',
                 'mise_en_circulation' => 'required',
             ]);
@@ -244,7 +291,6 @@ class FormulaireApporter extends Component
                 'date_effet' => 'required',
                 'date_echeance' => 'required',
                 'duree' => 'required',
-                'numero_avenant' => 'required',
             ]);
         }
     }
@@ -391,6 +437,7 @@ class FormulaireApporter extends Component
         session()->put('prime_net_allianz_rc', $this->prime_net_rc_allianz);
         session()->put('prime_net_nsia_rc', $this->prime_net_rc_nsia);
         session()->put('prime_net_askia_rc', $this->prime_net_rc_askia);
+        //dd($this->valeur_neuve,$this->valeur_venale);
 //----------------------------------------------------autres garanties-------------------------
         $thierce_complete_total = 0;
         if ($this->thierce_complete != 0) {
@@ -628,7 +675,7 @@ class FormulaireApporter extends Component
         session(['avance_sur_recours_vehicule' => $this->avance_sur_recours]);
         session(['personnes_transportees_vehicule' => $this->personne_transportees]);
         session(['thierce_complete_franchise_vehicule' => $this->thierce_complete]);
-        session(['thierce_collision_franchise_vehicule' => $this->personne_transportees]);
+        session(['thierce_collision_franchise_vehicule' => $this->thierce_collision]);
         session(['vol_franchise_vehicule' => "30000"]);
         session(['incendie_franchise_vehicule' => "30000"]);
         session(['defence_et_recours_capital_garanti_vehicule' => $defence_et_recours_capital_garanti]);

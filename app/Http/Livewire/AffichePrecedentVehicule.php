@@ -20,8 +20,16 @@ class AffichePrecedentVehicule extends Component
     {
         return redirect()->route('dashboard_apporter');
     }
+    // public function updated($field)
+    // {
+    //     $this->hasUnsavedChanges = true;
+    // }
     public function accepter()
     {
+        $this->hasUnsavedChanges = false;
+
+        // Close the modal after confirmation
+        //$this->dispatchBrowserEvent('closeConfirmationModal');
         $this->accepter = true;
         session(['accepter' => $this->accepter]);
         return redirect()->route('cotation_apporter_document_axa');

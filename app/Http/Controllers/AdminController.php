@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -48,14 +49,14 @@ class AdminController extends Controller
             'password.regex' => 'Le mot de passe doit contenir au moins une lettre majuscule et un chiffre.',
         ]);
         $hashedPassword = bcrypt($request['password']);
-        $enregistrer= new User();
-        $enregistrer->name=$request['nom'];
-        $enregistrer->prenom=$request['prenom'];
-        $enregistrer->email=$request['email'];
-        $enregistrer->password=$hashedPassword;
-        $enregistrer->code_apporter=$request['code_apporter'];
-        $enregistrer->adresse=$request['adresse'];
-        $enregistrer->telephone=$request['telephone'];
+        $enregistrer = new User();
+        $enregistrer->name = $request['nom'];
+        $enregistrer->prenom = $request['prenom'];
+        $enregistrer->email = $request['email'];
+        $enregistrer->password = $hashedPassword;
+        $enregistrer->code_apporter = $request['code_apporter'];
+        $enregistrer->adresse = $request['adresse'];
+        $enregistrer->telephone = $request['telephone'];
         $enregistrer->save();
         if ($enregistrer->id) {
             return redirect()->back()->with('success', 'Apporter enregistrer avec succés!');
@@ -63,5 +64,21 @@ class AdminController extends Controller
             return redirect()->back()->with('erroe', "Erreur pendant l'insertion!");
         }
         //dd($enregistrer);
+    }
+    public function user_detail(request $request)
+    {
+        $id = $request->id;
+        $mois = $request->mois;
+        $years = $request->years;
+
+        return view('admin.dashboard_detail', compact('id', 'mois', 'years'));
+
+    }
+    public function assurance_detail(request $request)
+    {
+        $id = $request->id;
+
+        return view('admin.dashboard_detail_assurance', compact('id'));
+
     }
 }

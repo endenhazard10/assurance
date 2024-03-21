@@ -14,6 +14,23 @@
 * {
   user-select: none;
 }
+.btn-custom {
+  font-size: 16px; /* Personnalisez la taille de la police */
+  padding: 4px 8px !important; /* Personnalisez les espacements intérieur du bouton (haut/bas, gauche/droite) */
+  height: 30px !important;
+}
+.btn-custome {
+  font-size: 16px; /* Personnalisez la taille de la police */
+  padding: 6px 8px !important; /* Personnalisez les espacements intérieur du bouton (haut/bas, gauche/droite) */
+  padding-top: 1px !important;
+  height: 30px !important;
+}
+.btn-danger {
+  background-color: #d63384 !important; /* Cambia el color de fondo a verde, que es el color típico de éxito en Bootstrap */
+  color: #fff; /* Cambia el color del texto a blanco para que sea legible en el fondo verde */
+  border-color: #d63384 !important; /* Cambia el color del borde, si es aplicable */
+  /* Agrega cualquier otra propiedad de estilo que desees cambiar o agregar */
+}
 
 :root {
   --bs-blue: #0d6efd;

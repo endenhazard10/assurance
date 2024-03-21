@@ -14,7 +14,7 @@ class AddNumeroPoliceToAssuranceVoyages extends Migration
     public function up()
     {
         Schema::table('assurance_voyages', function (Blueprint $table) {
-            $table->integer('numero_police')->nullable();
+            $table->string('numero_police')->nullable();
         });
     }
 

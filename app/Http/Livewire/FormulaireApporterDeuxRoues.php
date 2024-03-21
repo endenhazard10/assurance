@@ -5,6 +5,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Session;
 use Livewire\WithFileUploads;
 
 class FormulaireApporterDeuxRoues extends Component
@@ -144,6 +145,9 @@ class FormulaireApporterDeuxRoues extends Component
 
     public function goToStep($newStep)
     {
+        if($newStep > $this->currentStep){
+            $this->validateData();
+        }
         $this->currentStep = $newStep;
     }
 
@@ -189,7 +193,38 @@ class FormulaireApporterDeuxRoues extends Component
             //dd($this->date_echeance);
         }
     }
-
+    public function vider_le_formulaire(){
+        Session::forget([
+            'prenom_deux_roues',
+            'nom_deux_roues',
+            'adresse_deux_roues',
+            'profession_client_deux_roues',
+            'telephone_deux_roues'
+            ,
+            'date_de_naissance_deux_roues',
+            'marque_deux_roues',
+            'modele_deux_roues',
+            'puissance_deux_roues',
+            'energie_deux_roues',
+            'categorie_deux_roues',
+            'nombre_de_places_deux_roues'
+            ,
+            'immatriculation_deux_roues',
+            'mise_en_circulation_deux_roues',
+            'valeur_neuve_deux_roues',
+            'valeur_venale_deux_roues',
+            'nom_carte_grise_deux_roues',
+            'numero_police_deux_roues',
+            'date_effet_deux_roues',
+            'date_echeance_deux_roues',
+            'duree_deux_roues',
+            'numero_avenant_deux_roues',
+            'bonus_rc_deux_roues',
+            'bris_de_glace_deux_roues',
+            'personnes_transportees_deux_roues',
+        ]);
+        return redirect()->route('cotation_apporter_automobile_deux_roues');
+    }
     public function validateData()
     {
 
@@ -209,7 +244,6 @@ class FormulaireApporterDeuxRoues extends Component
                 'modele' => 'required',
                 'puissance' => 'required',
                 'energie' => 'required',
-                'nom_sur_la_carte_grise' => 'required',
                 'immatriculation' => 'required',
                 'mise_en_circulation' => 'required',
                 'categorie' => 'required',
@@ -220,7 +254,6 @@ class FormulaireApporterDeuxRoues extends Component
                 'date_effet' => 'required',
                 'date_echeance' => 'required',
                 'duree' => 'required',
-                'numero_avenant' => 'required',
             ]);
         }
     }

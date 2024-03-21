@@ -4,9 +4,12 @@
             <div class="d-flex justify-content-center mb-4">
                 @for ($step = 1; $step <= 4; $step++)
                     <button
-                        class="btn @if ($currentStep == $step) btn-success @else btn-primary @endif  mr-2 @if ($currentStep < $step) disabled @endif"
+                        class="btn btn-custome @if ($currentStep == $step) btn-danger @else btn-primary @endif  mr-2 "
                         wire:click="goToStep({{ $step }})">Étape {{ $step }}</button>
                 @endfor
+                @if (session()->get('nom_vehicule'))
+                <div><button class="btn btn-custome btn-primary mr-2" wire:click="vider_le_formulaire()">Vidé le formulaire</button></div>
+                @endif
             </div>
         </div>
     </div>
@@ -14,15 +17,15 @@
         @csrf
         {{-- STEP 1 --}}
         @if ($currentStep == 1)
-            <div class="step-two">
+            <div class="step-two" style="width: 150%; margin-left:-22%;">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 1/4 - Assuré / Souscripteur</div>
+                    <div style="background-color: #ec008c !important" class="card-header  text-white ">STEP 1/4 - Assuré / Souscripteur</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="field1">Numéro client</label>
-                                    <input type="number" id="field1" name="numero_client" disabled
+                                    <input type="number" id="field1" name="numero_client" disabled min="0"
                                         class="form-control" placeholder="Enter le numero du client"
                                         wire:model="numero_client">
                                     <span class="text-danger">
@@ -34,7 +37,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field2">Prénom</label>
                                     <input type="text" id="field2" name="prenom" class="form-control"
@@ -46,7 +49,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field3">nom</label>
                                     <input type="text" id="field3" class="form-control" placeholder="Enter le nom"
@@ -58,9 +61,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field4">Adresse</label>
                                     <input type="text" id="field4" class="form-control"
@@ -72,7 +73,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field5">Profession</label>
                                     <input type="text" id="field5" class="form-control"
@@ -84,12 +87,10 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field6">Téléphone</label>
-                                    <input type="number" id="field6" class="form-control"
+                                    <input type="number" id="field6" class="form-control" 
                                         placeholder="Enter le numero de Téléphone" wire:model="telephone">
                                     <span class="text-danger">
                                         @error('telephone')
@@ -98,7 +99,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field7">Date de naissance</label>
                                     <input type="date" id="field7" class="form-control"
@@ -119,12 +120,12 @@
         {{-- STEP 2 --}}
 
         @if ($currentStep == 2)
-            <div class="step-one">
+            <div class="step-one" style="width: 150%; margin-left:-22%;">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 2/4 - Véhicule</div>
+                    <div style="background-color: #ec008c !important" class="card-header text-white">STEP 2/4 - Véhicule</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @if ($marque != 'Autre')
                                     <label for="field8">Marque</label>
@@ -146,7 +147,7 @@
                                     </span>
                                     @endif
                                     @if ($marque === 'Autre')
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Marque</label>
                                         <input type="text" class="form-control" placeholder="Entrer la marque" wire:model="autre" />
@@ -156,7 +157,7 @@
                                 </div>  
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field9">Modéle</label>
                                     <input type="text" id="field9" class="form-control"
@@ -168,9 +169,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field10">Puissance</label>
                                     <select id="field10" class="form-control" wire:model="puissance">
@@ -207,7 +206,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field11">Energie</label>
                                     <select id="field11" class="form-control" wire:model="energie">
@@ -222,10 +223,7 @@
                                     </span>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field12">Catégorie</label>
                                     <select id="field12" class="form-control" wire:model="categorie">
@@ -245,10 +243,10 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field13">Nombre de places</label>
-                                    <input type="number" id="field13" class="form-control"
+                                    <input type="number" id="field13" class="form-control" min="0"
                                         placeholder="Enter le nombre de places" wire:model="nombre_de_places">
                                     <span class="text-danger">
                                         @error('nombre_de_places')
@@ -259,7 +257,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field14">Numéro immatriculation</label>
                                     <input type="text" id="field14" class="form-control"
@@ -271,7 +269,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field15">Premier mise en circulation</label>
                                     <input type="date" id="field15" class="form-control"
@@ -284,35 +282,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="field16">Valeur neuve</label>
-                                    <input type="number" id="field16" class="form-control"
-                                        placeholder="Enter la valeur neuve" wire:model="valeur_neuve">
-                                    <span class="text-danger">
-                                        @error('valeur_neuve')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="field17">Valeur vénale</label>
-                                    <input type="number" id="field17" class="form-control"
-                                        placeholder="Enter la valeur venale" wire:model="valeur_venale">
-                                    <span class="text-danger">
-                                        @error('valeur_venale')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="field18">Nom sur de la carte grise</label>
                                     <input type="text" id="field18" class="form-control"
@@ -325,6 +295,35 @@
                                     </span>
                                 </div>
                             </div>
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field17">Valeur vénale</label>
+                                    <input type="number" id="field17" class="form-control" min="0"
+                                        placeholder="Enter la valeur venale" wire:model="valeur_venale">
+                                    <span class="text-danger">
+                                        @error('valeur_venale')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field16">Valeur neuve</label>
+                                    <input type="number" id="field16" class="form-control" min="0"
+                                        placeholder="Enter la valeur neuve" wire:model="valeur_neuve">
+                                    <span class="text-danger">
+                                        @error('valeur_neuve')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -333,15 +332,15 @@
         {{-- STEP 3 --}}
 
         @if ($currentStep == 3)
-            <div class="step-three">
+            <div class="step-three" style="width: 150%; margin-left:-22%;">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 3/4 - Contrat</div>
+                    <div style="background-color: #ec008c !important" class="card-header text-white">STEP 3/4 - Contrat</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Numero Police</label>
-                                    <input type="number" class="form-control"
+                                    <input type="text" class="form-control" min="0"
                                         placeholder="Entrer le numero de la police" wire:model="numero_police">
                                     <span class="text-danger">
                                         @error('numero_police')
@@ -350,7 +349,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Date d'effet</label>
                                     <input type="date" class="form-control" placeholder="Enter la date d'effet"
@@ -362,22 +361,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Date échéance</label>
-                                    <input type="text" class="form-control" disabled
-                                        placeholder="Enter la date d'échéance" wire:model="date_echeance"
-                                        value="{{ $date_echeance }}">
-                                    <span class="text-danger">
-                                        @error('date_echeance')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Durée</label>
                                     <select class="form-control" wire:model="duree">
@@ -402,10 +386,27 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Date échéance</label>
+                                    <input type="text" class="form-control" disabled
+                                        placeholder="Enter la date d'échéance" wire:model="date_echeance"
+                                        value="{{ $date_echeance }}">
+                                    <span class="text-danger">
+                                        @error('date_echeance')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Numero avenant</label>
-                                    <input type="number" class="form-control" placeholder="Enter le numero avenant"
+                                    <input type="text" class="form-control" placeholder="Enter le numero avenant" min="0"
                                         wire:model="numero_avenant">
                                     <span class="text-danger">
                                         @error('numero_avenant')
@@ -422,9 +423,9 @@
 
         {{-- STEP 4 --}}
         @if ($currentStep == 4)
-            <div class="step-four">
+            <div class="step-four" style="width: 150%; margin-left:-22%;">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">STEP 4/4 - Contrat</div>
+                    <div style="background-color: #ec008c !important" class="card-header text-white">STEP 4/4 - Contrat</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -503,7 +504,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="thierce_complete">Tierce complete</label>
-                                    <select class="form-control" wire:model="thierce_complete">
+                                    <select class="form-control" wire:model="thierce_complete" @if($valeur_neuve==0) disabled @endif>
                                         <option value="0" selected>Montant de la franchise tierce complete
                                         </option>
                                         <option value="50000">50000</option>
@@ -526,7 +527,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="reduction_thierce_complete">Reduction</label>
-                                    <select class="form-control" wire:model="reduction_thierce_complete">
+                                    <select class="form-control" wire:model="reduction_thierce_complete" @if($valeur_neuve==0) disabled @endif>
                                         <option value="0" selected>-- Non Choisi --</option>
                                         <option value="10">10 %</option>
                                         <option value="15">15 %</option>
@@ -580,7 +581,7 @@
                                 <div class="form-group">
                                     <label for="defence_et_recours">Tarif Defense et Recours</label>
                                     <select class="form-control" wire:model="defence_et_recours">
-                                        <option value="0" selected>CAPITAL GARANTI</option>
+                                        <option value="0" selected>Capital garanti</option>
                                         <option value="4000">250000</option>
                                         <option value="7500">400000</option>
                                     </select>
@@ -645,7 +646,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="incendie">Incendie</label>
-                                    <select class="form-control" wire:model="incendie">
+                                    <select class="form-control" wire:model="incendie" @if($valeur_venale==0) disabled @endif>
                                         <option value="non" selected>Non choisi</option>
                                         <option value="oui">Choisi</option>
                                     </select>
@@ -659,7 +660,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="reduction_incendie">Reduction</label>
-                                    <select class="form-control" wire:model="reduction_incendie">
+                                    <select class="form-control" wire:model="reduction_incendie" @if($valeur_venale==0) disabled @endif>
                                         <option value="0" selected>-- Non Choisi --</option>
                                         <option value="10">10 %</option>
                                         <option value="15">15 %</option>
@@ -677,7 +678,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="vol">Vol</label>
-                                    <select class="form-control" wire:model="vol">
+                                    <select class="form-control" wire:model="vol" @if($valeur_venale==0) disabled @endif>
                                         <option value="non" selected>Non choisi</option>
                                         <option value="oui">Choisi</option>
                                     </select>
@@ -691,7 +692,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="reduction_vol">Reduction</label>
-                                    <select class="form-control" wire:model="reduction_vol">
+                                    <select class="form-control" wire:model="reduction_vol" @if($valeur_venale==0) disabled @endif>
                                         <option value="0" selected>-- Non Choisi --</option>
                                         <option value="10">10 %</option>
                                         <option value="15">15 %</option>

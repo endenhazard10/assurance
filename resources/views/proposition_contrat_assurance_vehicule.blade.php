@@ -7,6 +7,9 @@
         body {
             font-family: "Times New Roman", Times, serif;
         }
+        tr{
+            font-size: 13px;
+        }
     </style>
 </head>
 
@@ -364,6 +367,44 @@
         <tr>
             <td style="text-align: center;">
                 Vol
+            </td>
+            <td style="text-align: center;">
+                @if (session()->get('vol_vehicule') == 0)
+                    non garanti
+                @else
+                    garanti
+                @endif
+            </td>
+            <td style="text-align: center;">
+                @if (session()->get('vol_vehicule') == 0)
+                    --
+                @else
+                    {{ (int) session()->get('valeur_venale_vehicule') }}
+                @endif
+            </td>
+            <td style="text-align: center;">
+                --
+            </td>
+            <td style="text-align: center;">
+                @if (session()->get('vol_vehicule') == 0)
+                    --
+                @else
+                    {{ (int) session()->get('vol_franchise_vehicule') }}
+                @endif
+            </td>
+            <td style="text-align: center;">
+                @if (session()->get('vol_vehicule') == 0)
+                    --
+                @else
+                    {{ (int) session()->get('vol_vehicule') }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">
+                Personnes transportées <br>
+                Décès <br>
+                Infirmité
             </td>
             <td style="text-align: center;">
                 @if (session()->get('vol_vehicule') == 0)

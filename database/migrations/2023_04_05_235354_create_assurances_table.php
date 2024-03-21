@@ -28,12 +28,12 @@ class CreateAssurancesTable extends Migration
             $table->string("nombre_de_place")->default(0);
             $table->bigInteger("valeur_neuve")->default(0);
             $table->bigInteger("valeur_venale")->default(0);
-            $table->string("nom_sur_la_carte_grise");
+            $table->string("nom_sur_la_carte_grise")->nullable();
             $table->string("numero_attestation");
             $table->string("date_effet");
             $table->string("date_echeance");
             $table->string("dure");
-            $table->string("numero_avenant");
+            $table->string("numero_avenant")->nullable();
             $table->bigInteger("responsabilite_civile")->default(0);
             $table->bigInteger("thierce_complete")->default(0);
             $table->bigInteger("thierce_complete_franchise")->default(0);

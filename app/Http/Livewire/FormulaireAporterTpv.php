@@ -6,6 +6,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Session;
 use Livewire\WithFileUploads;
 
 class FormulaireAporterTpv extends Component
@@ -29,8 +30,8 @@ class FormulaireAporterTpv extends Component
     public $date_effet;
     public $date_echeance;
     public $duree;
-    public $valeur_neuve;
-    public $valeur_venale;
+    public $valeur_neuve=0;
+    public $valeur_venale=0;
     public $responsabilite_civile;
     public $thierce_complete = 0;
     public $thierce_collision = 0;
@@ -157,6 +158,9 @@ class FormulaireAporterTpv extends Component
     public $currentStep = 1;
     public function goToStep($newStep)
     {
+        if($newStep > $this->currentStep){
+            $this->validateData();
+        }
         $this->currentStep = $newStep;
     }
     public function mount()
@@ -181,6 +185,53 @@ class FormulaireAporterTpv extends Component
         if ($this->currentStep < 1) {
             $this->currentStep = 1;
         }
+    }
+    public function vider_le_formulaire(){
+        Session::forget([
+            'prenom_tpv',
+            'nom_tpv',
+            'adresse_tpv',
+            'profession_tpv',
+            'telephone_tpv'
+            ,
+            'date_de_naissance_tpv',
+            'marque_tpv',
+            'modele_tpv',
+            'puissance_tpv',
+            'energie_tpv',
+            'categorie_tpv',
+            'nombre_de_places_tpv'
+            ,
+            'immatriculation_tpv',
+            'mise_en_circulation_tpv',
+            'valeur_neuve_tpv',
+            'valeur_venale_tpv',
+            'nom_carte_grise_tpv',
+            'numero_police_tpv',
+            'date_effet_tpv',
+            'date_echeance_tpv',
+            'duree_tpv',
+            'numero_avenant_tpv',
+            'bonus_rc_tpv',
+            'thierce_complete_tpv'
+            ,
+            'thierce_collision_tpv',
+            'vol_tpv',
+            'incendie_tpv',
+            '',
+            'bris_de_glace_tpv',
+            'defence_et_recours_tpv',
+            'thierce_complete_franchise_tpv'
+            ,
+            'avance_sur_recours_tpv',
+            'personnes_transportees_tpv',
+            'thierce_collision_franchise_tpv',
+            'vol_franchise_tpv'
+            ,
+            'defence_et_recours_capital_garanti_tpv',
+            'avance_sur_recours_capital_garanti_tpv',
+        ]);
+        return redirect()->route('cotation_apporter_automobile_tpv');
     }
     public function updatedDateEffet()
     {
@@ -226,9 +277,6 @@ class FormulaireAporterTpv extends Component
                 'energie' => 'required',
                 'categorie' => 'required',
                 'nombre_de_places' => 'required',
-                'valeur_neuve' => 'required',
-                'valeur_venale' => 'required',
-                'nom_sur_la_carte_grise' => 'required',
                 'immatriculation' => 'required',
                 'mise_en_circulation' => 'required',
             ]);
@@ -238,7 +286,6 @@ class FormulaireAporterTpv extends Component
                 'date_effet' => 'required',
                 'date_echeance' => 'required',
                 'duree' => 'required',
-                'numero_avenant' => 'required',
             ]);
         }
     }

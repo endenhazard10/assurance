@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCommissiosAUsers extends Migration
+class RenameTableVoyagePrimeNETTESToVoyagePrimeTTCs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,7 @@ class AddCommissiosAUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('commissions_apporteur')->nullable();
-            $table->bigInteger('commissions_accessoires')->nullable();
-        });
+        Schema::rename('voyage_prime_n_e_t_t_e_s', 'voyage_prime_t_t_c_s');
     }
 
     /**
@@ -26,8 +23,6 @@ class AddCommissiosAUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::rename('voyage_prime_t_t_c_s', 'voyage_prime_n_e_t_t_e_s');
     }
 }

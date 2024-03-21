@@ -163,25 +163,19 @@
                     PRIME NETTE
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    77 000
+                    {{ ucfirst($assurance[0]->prime_nette) }}
                 </td>
                 <td>
                     Accessoires
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    10 000
+                    {{ ucfirst($assurance[0]->accessoire) }}
                 </td>
                 <td>
-                    TCA
+                    Taxes
                 </td>
                 <td style="text-align: left;font-size:13px;">
-                    7 000
-                </td>
-                <td>
-                    PCA
-                </td>
-                <td style="text-align: left;font-size:13px;">
-                    0
+                    {{ ucfirst($assurance[0]->taxe) }}
                 </td>
                 <td style="font-size:13px;">
                     PRIME TTC
